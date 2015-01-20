@@ -31,22 +31,26 @@ trait ShinobiTrait
 	/**
 	 * Assigns the given role to the user.
 	 *
-	 * @param  integer|object $role
+	 * @param  integer $roleId
 	 * @return bool
 	 */
-	public function assignRole($role)
+	public function assignRole($roleId)
 	{
-		return $this->roles()->attach($role);
+		if (! $this->roles()->contains($roleId)) {
+			return $this->roles()->attach($roleId);
+		}
+
+		return false;
 	}
 
 	/**
 	 * Revokes the given role from the user.
 	 *
-	 * @param  integer|object $role
+	 * @param  integer $roleId
 	 * @return bool
 	 */
-	public function revokeRole($role)
+	public function revokeRole($roleId)
 	{
-		return $this->roles()->detach($role);
+		return $this->roles()->detach($roleId);
 	}
 }
