@@ -33,22 +33,28 @@ class User extends Model
 
 ### Trait Methods
 
-#### hasRole
+#### is($roleSlug)
 Checks if the user is under the given role.
 
 ```php
-Auth::user()->hasRole('admin');
+Auth::user()->is('administrator');
 ```
 
-#### assignRole
-Assign the given role (by the role ID) to the user.
+You may also use magic methods:
+
+```php
+Auth::user()->isAdministrator();
+```
+
+#### assignRole($roleId)
+Assign the given role to the user.
 
 ```php
 Auth::user()->assignRole(1);
 ```
 
-#### revokeRole
-Revokes the given role (by the role ID) from the user.
+#### revokeRole($roleId)
+Revokes the given role from the user.
 
 ```php
 Auth::user()->revokeRole(1);

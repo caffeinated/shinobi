@@ -14,13 +14,15 @@ trait ShinobiTrait
 	}
 
 	/**
-	 * Checks if the user is under the given role.
+	 * Checks if the user has the given role.
 	 *
 	 * @param  string $slug
 	 * @return bool
 	 */
-	public function hasRole($slug)
+	public function is($slug)
 	{
+		$slug = strtolower($slug);
+
 		foreach ($this->roles as $role) {
 			if ($role->slug == $slug) return true;
 		}
@@ -54,5 +56,24 @@ trait ShinobiTrait
 	public function revokeRole($roleId)
 	{
 		return $this->roles()->detach($roleId);
+	}
+
+	/**
+	 * Magic __call method to handle dynamic methods.
+	 *
+	 * @param  string $method
+	 * @param  array  $arguments
+	 * @return mixed
+	 */
+	public function __call($method, $arguments = array())
+	{
+		// Handle isFoobar() methods
+		if (starts_with($method, 'is') and $method !== 'is') {
+			$role = substr($method, 2);
+
+			return $this->is($role);
+		}
+
+		return parent::__call($method, $arguments);
 	}
 }
