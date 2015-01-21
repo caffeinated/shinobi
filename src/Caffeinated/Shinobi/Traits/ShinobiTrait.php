@@ -53,9 +53,30 @@ trait ShinobiTrait
 	 * @param  integer $roleId
 	 * @return bool
 	 */
-	public function revokeRole($roleId)
+	public function revokeRole($roleId = '')
 	{
 		return $this->roles()->detach($roleId);
+	}
+
+	/**
+	 * Syncs the given role(s) with the user.
+	 *
+	 * @param  array $roleIds
+	 * @return bool
+	 */
+	public function syncRoles($roleIds)
+	{
+		return $this->roles()->sync($roleIds);
+	}
+
+	/**
+	 * Revokes all roles from the user.
+	 *
+	 * @return bool
+	 */
+	public function revokeAllRoles()
+	{
+		return $this->roles()->detach();
 	}
 
 	/**
