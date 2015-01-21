@@ -1,0 +1,33 @@
+{
+    "name": "caffeinated/shinobi",
+    "description": "Laravel 5 Roles and Permissions",
+    "keywords": ["shinobi", "roles", "permissions", "auth", "laravel", "caffeinated"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shea Lewis",
+            "email": "shea.lewis89@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/database": ">=5.0.0",
+        "illuminate/support": ">=5.0.0",
+        "illuminate/filesystem": ">=5.0.0",
+        "illuminate/config": ">=5.0.0",
+    },
+    "require-dev": {
+        "mockery/mockery": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Caffeinated\\Shinobi": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}
