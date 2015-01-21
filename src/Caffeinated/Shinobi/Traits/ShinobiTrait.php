@@ -36,7 +36,9 @@ trait ShinobiTrait
 	 */
 	public function assignRole($roleId)
 	{
-		if (! $this->roles()->contains($roleId)) {
+		$roles = $this->roles;
+
+		if (! $roles->contains($roleId)) {
 			return $this->roles()->attach($roleId);
 		}
 
