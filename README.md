@@ -59,3 +59,17 @@ Revokes the given role from the user.
 ```php
 Auth::user()->revokeRole(1);
 ```
+
+#### revokeAllRoles()
+Revokes all roles from the user.
+
+```php
+Auth::user()->revokeAllRoles();
+```
+
+#### syncRoles([$roleIds])
+Syncs the given roles with the user. This will revoke any roles not supplied.
+
+```php
+Auth::user()->syncRoles([1, 2, 3]);
+```
