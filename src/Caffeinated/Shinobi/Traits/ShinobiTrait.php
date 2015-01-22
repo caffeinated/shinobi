@@ -36,7 +36,7 @@ trait ShinobiTrait
 	 * @param  integer $roleId
 	 * @return bool
 	 */
-	public function assignRole($roleId)
+	public function assignRole($roleId = null)
 	{
 		$roles = $this->roles;
 
