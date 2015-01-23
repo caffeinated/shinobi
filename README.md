@@ -6,6 +6,8 @@ Caffeinated Shinobi
 
 Shinobi brings a simple role-based permissions system to Laravel's auth system.
 
+**Note:** Shinobi is currently in development. Permissions have not been implemented yet.
+
 Installation
 ------------
 Begin by installing the package through Composer. The best way to do this is through your terminal via Composer itself:
