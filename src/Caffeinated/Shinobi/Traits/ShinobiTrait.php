@@ -64,7 +64,7 @@ trait ShinobiTrait
 	 * @param  array $roleIds
 	 * @return bool
 	 */
-	public function syncRoles($roleIds)
+	public function syncRoles(array $roleIds)
 	{
 		return $this->roles()->sync($roleIds);
 	}
@@ -88,7 +88,7 @@ trait ShinobiTrait
 	 */
 	public function __call($method, $arguments = array())
 	{
-		// Handle isFoobar() methods
+		// Handle isRoleslug() methods
 		if (starts_with($method, 'is') and $method !== 'is') {
 			$role = substr($method, 2);
 
