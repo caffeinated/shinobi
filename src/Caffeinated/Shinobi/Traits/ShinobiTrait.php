@@ -1,6 +1,8 @@
 <?php
 namespace Caffeinated\Shinobi\Traits;
 
+use Illuminate\Database\Eloquent\Collection;
+
 trait ShinobiTrait
 {
 	/*
@@ -17,7 +19,40 @@ trait ShinobiTrait
 	 */
 	public function roles()
 	{
-		return $this->belongsToMany('Caffeinated\Shinobi\Models\Role')->withTimestamps();
+		return $this->belongsToMany('\Caffeinated\Shinobi\Models\Role')->withTimestamps();
+	}
+
+	/**
+	 * Get all user roles.
+	 *
+	 * @return array|null
+	 */
+	public function getRoles()
+	{
+		if (! is_null($this->roles)) {
+			return $this->roles->lists('slug');
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get all user role permissions.
+	 *
+	 * @return array|null
+	 */
+	public function getPermissions()
+	{
+		$collection = new Collection;
+
+		$this->roles->each(function($role, $collection) {
+			// dd($role->permissions);
+			$collection->add($role->permissions);
+
+			dd ($collection);
+		});
+
+		return $permissions->unique();
 	}
 
 	/**
