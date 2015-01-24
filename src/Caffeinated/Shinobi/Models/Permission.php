@@ -2,9 +2,9 @@
 namespace Caffeinated\Shinobi\Models;
 
 use Config;
-use Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Permission extends Model
 {
 	/**
 	 * The attributes that are fillable via mass assignment.
@@ -18,15 +18,15 @@ class Role extends Model
 	 *
 	 * @var string
 	 */
-	protected $table = 'roles';
+	protected $table = 'permissions';
 
 	/**
-	 * Roles can belong to many users.
+	 * Permissions can belong to many roles.
 	 *
 	 * @return Model
 	 */
-	public function users()
+	public function roles()
 	{
-		return $this->belongsToMany(Config::get('auth.model'))->withTimestamps();
+		return $this->belongsToMany('Caffeinated\Shinobi\Models\Role')->withTimestamps();
 	}
 }
