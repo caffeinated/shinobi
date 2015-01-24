@@ -40,21 +40,30 @@ class Role extends Model
 		return $this->belongsToMany('\Caffeinated\Shinobi\Models\Permission')->withTimestamps();
 	}
 
+	public function getPermissions()
+	{
+		return $this->permissions->lists('slug');
+	}
+
 	/**
 	 * Checks if the role has the given permission.
 	 *
-	 * @param  string $slug
+	 * @param  string $permission
 	 * @return bool
 	 */
-	public function can($slug)
+	public function can($permission)
 	{
-		$slug = strtolower($slug);
+		$permissions = $this->getPermissions();
 
-		foreach ($this->permissions as $permission) {
-			if ($permission->slug == $slug) return true;
-		}
+		if (is_array($permission)) {
+			$permissionCount    = count($permission);
+			$intersection       = array_intersect($permissions, $permission);
+			$IntersectionCount  = count($intersection);
 
-		return false;
+			return ($permissionCount == $intersectionCount) ? true : false;
+		} else {
+			return in_array($permission, $permissions);
+		}		
 	}
 
 	/**

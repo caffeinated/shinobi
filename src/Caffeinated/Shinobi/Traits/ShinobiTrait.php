@@ -37,25 +37,6 @@ trait ShinobiTrait
 	}
 
 	/**
-	 * Get all user role permissions.
-	 *
-	 * @return array|null
-	 */
-	public function getPermissions()
-	{
-		$collection = new Collection;
-
-		$this->roles->each(function($role, $collection) {
-			// dd($role->permissions);
-			$collection->add($role->permissions);
-
-			dd ($collection);
-		});
-
-		return $permissions->unique();
-	}
-
-	/**
 	 * Checks if the user has the given role.
 	 *
 	 * @param  string $slug
@@ -127,6 +108,39 @@ trait ShinobiTrait
 	|----------------------------------------------------------------------
 	|
 	*/
+
+	/**
+	 * Get all user role permissions.
+	 *
+	 * @return array|null
+	 */
+	public function getPermissions()
+	{
+		foreach ($this->roles as $role) {
+			$permissions[] = $role->permissions->lists('slug');
+		}
+
+		return $permissions;
+	}
+
+	/**
+	 * Check if user has the given permission.
+	 *
+	 * @param  string $permission
+	 * @return bool
+	 */
+	public function can($permission)
+	{
+		$can = true;
+
+		foreach ($this->roles as $role){
+			if (! $role->can($permission)) {
+				$can = false;
+			}
+		}
+
+		return $can;
+	}
 
 	/*
 	|----------------------------------------------------------------------
