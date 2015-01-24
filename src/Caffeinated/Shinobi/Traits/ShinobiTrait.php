@@ -33,7 +33,7 @@ trait ShinobiTrait
 	/**
 	 * Assigns the given role to the user.
 	 *
-	 * @param  integer $roleId
+	 * @param  int $roleId
 	 * @return bool
 	 */
 	public function assignRole($roleId = null)
@@ -50,7 +50,7 @@ trait ShinobiTrait
 	/**
 	 * Revokes the given role from the user.
 	 *
-	 * @param  integer $roleId
+	 * @param  int $roleId
 	 * @return bool
 	 */
 	public function revokeRole($roleId = '')
