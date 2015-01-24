@@ -2,7 +2,7 @@
 namespace Caffeinated\Shinobi\Models;
 
 use Config;
-use Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
