@@ -114,23 +114,4 @@ class Role extends Model
 	{
 		return $this->permissions()->detach();
 	}
-
-	/**
-	 * Magic __call method to handle dynamic methods.
-	 *
-	 * @param  string $method
-	 * @param  array  $arguments
-	 * @return mixed
-	 */
-	public function __call($method, $arguments = array())
-	{
-		// Handle canPermissionSlug() methods
-		if (starts_with($method, 'can') and $method !== 'can') {
-			$permission = substr($method, 3);
-
-			return $this->can($permission);
-		}
-
-		return parent::__call($method, $arguments);
-	}
 }
