@@ -104,3 +104,41 @@ Syncs the given roles with the user. This will revoke any roles not supplied.
 ```php
 Auth::user()->syncRoles([1, 2, 3]);
 ```
+
+Example Middleware
+------------------
+The following is an example middleware to get you started in filtering your routes based on user permissions.
+
+Note, that the Caffeinated Flash package is in use in the example; substitute as needed.
+
+```php
+<?php
+namespace App\Modules\Users\Http\Middleware;
+
+use Auth;
+use Closure;
+use Flash;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\Routing\Middleware;
+
+class AuthenticateAdmin implements Middleware
+{
+	/**
+	 * Handle an incoming request.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \Closure                  $next
+	 * @return mixed
+	 */
+	public function handle($request, Closure $next)
+	{
+		if (! Auth::user()->can('access.admin')) {
+			Flash::error('Sorry, you do not have the proper permissions.');
+
+			return Redirect('/');
+		}
+
+		return $next($request);
+	}
+}
+```
