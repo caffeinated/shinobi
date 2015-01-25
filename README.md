@@ -4,9 +4,16 @@ Caffeinated Shinobi
 [![Source](http://img.shields.io/badge/source-caffeinated/shinobi-blue.svg?style=flat-square)](https://github.com/caffeinated/shinobi)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
-Shinobi brings a simple role-based permissions system to Laravel's auth system.
-
 **Note:** Shinobi is currently in development. Permissions have not been implemented yet.
+
+Overview
+--------
+Shinobi brings a simple and light-weight role-based permissions system to Laravel's built in Auth system. Shinobi brings support for the following ACL structure:
+
+- Every user can have zero or more roles.
+- Every role can have zero or more permissions.
+
+Permissions are then inherited to the user through the user's assigned roles.
 
 Installation
 ------------
@@ -42,7 +49,8 @@ class User extends Model
 }
 ```
 
-### Trait Methods
+### Shinobi Trait Methods
+The following methods will become available from your User model.
 
 #### is($roleSlug)
 Checks if the user is under the given role.
@@ -55,6 +63,19 @@ You may also use magic methods:
 
 ```php
 Auth::user()->isAdministrator();
+```
+
+#### can($permission)
+Checks if the user has the given permission(s). You may pass either a string, or an array of permissions to check for. In the case of an array, ALL permissions must be accountable in order for this to return true.
+
+```php
+Auth::user()->can('access.admin');
+```
+
+or
+
+```php
+Auth::user()->can(['access.admin', 'view.users']);
 ```
 
 #### assignRole($roleId)
