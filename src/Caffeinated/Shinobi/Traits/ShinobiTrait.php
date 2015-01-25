@@ -117,11 +117,11 @@ trait ShinobiTrait
 	public function getPermissions()
 	{
 		foreach ($this->roles as $role) {
-			$permissions[] = $role->permissions->lists('slug');
+			$permissions[] = $role->getPermissions();
 		}
 
 		$permissions = call_user_func_array('array_merge', $permissions);
-		
+
 		return $permissions;
 	}
 
