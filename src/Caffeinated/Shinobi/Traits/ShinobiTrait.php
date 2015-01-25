@@ -120,6 +120,8 @@ trait ShinobiTrait
 			$permissions[] = $role->permissions->lists('slug');
 		}
 
+		$permissions = call_user_func_array('array_merge', $permissions);
+		
 		return $permissions;
 	}
 

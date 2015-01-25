@@ -58,7 +58,7 @@ class Role extends Model
 		if (is_array($permission)) {
 			$permissionCount    = count($permission);
 			$intersection       = array_intersect($permissions, $permission);
-			$IntersectionCount  = count($intersection);
+			$intersectionCount  = count($intersection);
 
 			return ($permissionCount == $intersectionCount) ? true : false;
 		} else {
