@@ -4,8 +4,6 @@ Caffeinated Shinobi
 [![Source](http://img.shields.io/badge/source-caffeinated/shinobi-blue.svg?style=flat-square)](https://github.com/caffeinated/shinobi)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
-**Note:** Shinobi is currently in development. Permissions have not been implemented yet.
-
 Overview
 --------
 Shinobi brings a simple and light-weight role-based permissions system to Laravel's built in Auth system. Shinobi brings support for the following ACL structure:
