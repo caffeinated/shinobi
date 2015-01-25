@@ -113,7 +113,7 @@ Note, that the Caffeinated Flash package is in use in the example; substitute as
 
 ```php
 <?php
-namespace App\Modules\Users\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
