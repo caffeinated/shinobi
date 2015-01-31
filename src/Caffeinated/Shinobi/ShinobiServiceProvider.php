@@ -13,6 +13,16 @@ class ShinobiServiceProvider extends ServiceProvider
 	protected $defer = false;
 
 	/**
+	 * Boot the service provider
+	 */
+	public function boot()
+	{
+		$this->publishes([
+			__DIR__.'/../../migrations' => $this->app->databasePath().'/migrations'
+		]);
+	}
+
+	/**
 	 * Register the service provider
 	 *
 	 * @return void
