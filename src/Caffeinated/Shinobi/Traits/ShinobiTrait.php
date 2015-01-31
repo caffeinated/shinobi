@@ -133,11 +133,11 @@ trait ShinobiTrait
 	 */
 	public function can($permission)
 	{
-		$can = true;
+		$can = false;
 
 		foreach ($this->roles as $role){
-			if (! $role->can($permission)) {
-				$can = false;
+			if ($role->can($permission)) {
+				$can = true;
 			}
 		}
 
