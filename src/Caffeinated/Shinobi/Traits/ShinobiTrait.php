@@ -168,7 +168,7 @@ trait ShinobiTrait
 		}
 
 		// Handle canDoSomething() methods
-		if (starts_with($methodm 'can') and $method !== 'can') {
+		if (starts_with($method, 'can') and $method !== 'can') {
 			$permission = substr($method, 3);
 
 			return $this->can($permission);
