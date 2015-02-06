@@ -25,7 +25,7 @@ Migrations
 You'll need to run the provided migrations against your database. Publish the migration files using the `vendor:publish` Artisan command:
 
 ```
-php artisan vendor:publish --provider="caffeinated\shinobi"
+php artisan vendor:publish --provider="caffeinated/shinobi"
 ```
 
 Usage
