@@ -153,7 +153,7 @@ Revokes all permissions from the role.
 ```php
 $role = Role::find(1);
 
-$role->revokeAllPermission();
+$role->revokeAllPermissions();
 
 $role->save();
 ```
