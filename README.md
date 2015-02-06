@@ -22,9 +22,11 @@ composer require caffeinated/shinobi
 
 Migrations
 ----------
-You'll need to run the provided migrations against your database. At the moment there is no publish method, so you'll need to manually copy the migrations to the correct location within your app.
+You'll need to run the provided migrations against your database. Publish the migration files using the `vendor:publish` Artisan command:
 
-You'll find the migration files within `vendor/caffeinated/shinobi/src/migrations`. Simply copy these to your application's migration directory `app/database/migrations`.
+```
+php artisan vendor:publish --provider="caffeinated\shinobi"
+```
 
 Usage
 -----
