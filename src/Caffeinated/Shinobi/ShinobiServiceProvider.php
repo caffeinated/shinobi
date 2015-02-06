@@ -14,12 +14,14 @@ class ShinobiServiceProvider extends ServiceProvider
 
 	/**
 	 * Boot the service provider
+	 *
+	 * @return null
 	 */
 	public function boot()
 	{
 		$this->publishes([
 			__DIR__.'/../../migrations' => $this->app->databasePath().'/migrations'
-		]);
+		], 'migrations');
 	}
 
 	/**
