@@ -3,8 +3,6 @@ Caffeinated Shinobi
 [![Laravel](https://img.shields.io/badge/Laravel-5.0-orange.svg?style=flat-square)](http://laravel.com)
 [![Source](http://img.shields.io/badge/source-caffeinated/shinobi-blue.svg?style=flat-square)](https://github.com/caffeinated/shinobi)
 [![Build Status](http://img.shields.io/travis/caffeinated/shinobi/master.svg?style=flat-square)](https://travis-ci.org/caffeinated/shinobi)
-[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/caffeinated/shinobi.svg?style=flat-square)](https://scrutinizer-ci.com/g/caffeinated/shinobi/?branch=master)
-[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/caffeinated/shinobi.svg?style=flat-square)](https://scrutinizer-ci.com/g/caffeinated/shinobi/?branch=master)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
 Shinobi brings a simple and light-weight role-based permissions system to Laravel's built in Auth system. Shinobi brings support for the following ACL structure:
@@ -103,6 +101,72 @@ Syncs the given roles with the user. This will revoke any roles not supplied.
 
 ```php
 Auth::user()->syncRoles([1, 2, 3]);
+```
+
+Role Permissions
+----------------
+The bundled `Role` model has easy to use methods to manage and assign permissions.
+
+#### can($permission)
+Checks if the role has the given permission(s). You may pass either a string, or an array of permissions to check for. In the case of an array, ALL permissions must be accountable in order for this to return true.
+
+```php
+$role = Role::find(1);
+
+return $role->can('access.admin');
+```
+
+#### getPermissions()
+Retrieves an array of assigned permission slugs for the role.
+
+```php
+$role = Role::find(1);
+
+return $role->getPermissions();
+```
+
+#### assignPermission($permissionId)
+Assigns the given permission to the role.
+
+```php
+$role = Role::find(1);
+
+$role->assignPermission(1);
+
+$role->save();
+```
+
+#### revokePermission($permissionId)
+Revokes the given permission from the role.
+
+```php
+$role = Role::find(1);
+
+$role->revokePermission(1);
+
+$role->save();
+```
+
+#### revokeAllPermissions()
+Revokes all permissions from the role.
+
+```php
+$role = Role::find(1);
+
+$role->revokeAllPermission();
+
+$role->save();
+```
+
+#### syncPermissions([$permissionIds])
+Syncs the given permissions with the role. This will revoke any permissions not supplied.
+
+```php
+$role = Role::find(1);
+
+$role->syncPermissions([1, 2, 3]);
+
+$role->save();
 ```
 
 Example Middleware
