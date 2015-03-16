@@ -65,6 +65,22 @@ class Role extends Model
 			return in_array($permission, $permissions);
 		}		
 	}
+	
+	/**
+	 * Check if the role has at least one of the given permissions
+	 *
+	 * @param  array $permission
+	 * @return bool
+	 */
+	public function canAtLeast(array $permission)
+	{
+		$permissions = $this->getPermissions();
+
+		$intersection       = array_intersect($permissions, $permission);
+		$intersectionCount  = count($intersection);
+
+		return ($intersectionCount > 0) ? true : false;
+	}
 
 	/**
 	 * Assigns the given permission to the role.

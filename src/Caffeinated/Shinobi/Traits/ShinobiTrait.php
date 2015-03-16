@@ -143,6 +143,25 @@ trait ShinobiTrait
 
 		return $can;
 	}
+	
+	/**
+	 * Check if user has at least one of the given permissions
+	 *
+	 * @param  array $permissions
+	 * @return bool
+	 */
+	public function canAtLeast(array $permissions)
+	{
+		$can = false;
+
+		foreach ($this->roles as $role){
+			if ($role->canAtLeast($permissions)) {
+				$can = true;
+			}
+		}
+
+		return $can;
+	}
 
 	/*
 	|----------------------------------------------------------------------
