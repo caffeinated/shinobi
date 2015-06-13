@@ -1,6 +1,7 @@
 Caffeinated Shinobi
 ===================
-[![Laravel](https://img.shields.io/badge/Laravel-5.0-orange.svg?style=flat-square)](http://laravel.com)
+[![Laravel 5.0](https://img.shields.io/badge/Laravel-5.0-orange.svg?style=flat-square)](http://laravel.com)
+[![Laravel 5.1](https://img.shields.io/badge/Laravel-5.1-orange.svg?style=flat-square)](http://laravel.com)
 [![Source](http://img.shields.io/badge/source-caffeinated/shinobi-blue.svg?style=flat-square)](https://github.com/caffeinated/shinobi)
 [![Build Status](http://img.shields.io/travis/caffeinated/shinobi/master.svg?style=flat-square)](https://travis-ci.org/caffeinated/shinobi)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
@@ -22,15 +23,27 @@ Quick Installation
 ------------------
 Begin by installing the package through Composer. The best way to do this is through your terminal via Composer itself:
 
+#### Laravel 5.0.x
 ```
-composer require caffeinated/shinobi
+composer require caffeinated/shinobi=~1.0
+```
+
+#### Laravel 5.1.x
+```
+composer require caffeinated/shinobi=~2.0
 ```
 
 Once this operation is complete, simply add the service provider to your project's `config/app.php` file and run the provided migrations against your database.
 
 ### Service Provider
+#### Laravel 5.0.x
 ```php
 'Caffeinated\Shinobi\ShinobiServiceProvider'
+```
+
+#### Laravel 5.1.x
+```php
+Caffeinated\Shinobi\ShinobiServiceProvider::class
 ```
 
 ### Migrations
