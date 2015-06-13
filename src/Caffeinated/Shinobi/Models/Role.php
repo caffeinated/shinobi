@@ -63,16 +63,16 @@ class Role extends Model
 			return ($permissionCount == $intersectionCount) ? true : false;
 		} else {
 			return in_array($permission, $permissions);
-		}		
+		}
 	}
-	
+
 	/**
 	 * Check if the role has at least one of the given permissions
 	 *
 	 * @param  array $permission
 	 * @return bool
 	 */
-	public function canAtLeast(array $permission)
+	public function canAtLeast(array $permission = array())
 	{
 		$permissions = $this->getPermissions();
 
@@ -116,7 +116,7 @@ class Role extends Model
 	 * @param  array $permissionIds
 	 * @return bool
 	 */
-	public function syncPermissions(array $permissionIds)
+	public function syncPermissions(array $permissionIds = array())
 	{
 		return $this->permissions()->sync($permissionIds);
 	}
