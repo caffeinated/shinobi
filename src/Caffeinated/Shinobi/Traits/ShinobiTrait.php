@@ -30,7 +30,7 @@ trait ShinobiTrait
 	public function getRoles()
 	{
 		if (! is_null($this->roles)) {
-			return $this->roles->lists('slug');
+			return $this->roles->lists('slug')->all();
 		}
 
 		return null;
@@ -116,13 +116,13 @@ trait ShinobiTrait
 	 */
 	public function getPermissions()
 	{
+		$permissions = [[], []];
+
 		foreach ($this->roles as $role) {
 			$permissions[] = $role->getPermissions();
 		}
 
-		$permissions = call_user_func_array('array_merge', $permissions);
-
-		return $permissions;
+		return call_user_func_array('array_merge', $permissions);
 	}
 
 	/**
@@ -143,7 +143,7 @@ trait ShinobiTrait
 
 		return $can;
 	}
-	
+
 	/**
 	 * Check if user has at least one of the given permissions
 	 *
