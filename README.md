@@ -17,7 +17,7 @@ The package follows the FIG standards PSR-1, PSR-2, and PSR-4 to ensure a high l
 
 Documentation
 -------------
-You will find user friendly documentation here: [Shinobi Documentation](http://codex.caffeinated.ninja/shinobi)
+You will find user friendly documentation in the wiki here: [Caffeinated Shinobi Wiki](https://github.com/caffeinated/shinobi/wiki)
 
 Quick Installation
 ------------------
