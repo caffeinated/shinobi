@@ -34,7 +34,13 @@ class ShinobiServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		//
+		$this->app->singleton('shinobi', function ($app) {
+			$auth = $app->make('Illuminate\Contracts\Auth\Guard');
+
+			return new \Caffeinated\Shinobi\Shinobi($auth);
+		});
+
+		$this->configureTwig();
 	}
 
 	/**
@@ -77,5 +83,22 @@ class ShinobiServiceProvider extends ServiceProvider
 	public function provides()
 	{
 		return ['shinobi'];
+	}
+
+	/**
+	 * Configure Twig
+	 *
+	 * Registers the necessary Caffeinated Shinobi tags with Twig;
+	 * only if Twig is set as the template engine.
+	 *
+	 * @return null
+	 */
+	protected function configureTwig()
+	{
+		$engine = $this->app['config']->get('themes.engine');
+
+		if ($engine == 'twig') {
+			$this->app['config']->push('sapling.tags', 'Caffeinated\Shinobi\Twig\TokenParser\Twig_TokenParser_Can');
+		}
 	}
 }
