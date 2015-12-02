@@ -1,8 +1,6 @@
 <?php
 namespace Caffeinated\Shinobi\Traits;
 
-use Illuminate\Database\Eloquent\Collection;
-
 trait ShinobiTrait
 {
 	/*

@@ -1,7 +1,6 @@
 <?php
 namespace Caffeinated\Shinobi\Models;
 
-use Config;
 use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model

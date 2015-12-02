@@ -20,13 +20,13 @@
         "mockery/mockery": "~0.9"
     },
     "autoload": {
-        "psr-0": {
-            "Caffeinated\\Shinobi": "src/"
+        "psr-4": {
+            "Caffeinated\\Shinobi\\": "src/"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "2.0-dev"
         }
     },
     "minimum-stability": "dev"
