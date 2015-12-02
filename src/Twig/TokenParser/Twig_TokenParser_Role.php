@@ -5,9 +5,9 @@ use Twig_Token;
 use Twig_TokenParser;
 use Twig_Error_Syntax;
 use Twig_Node;
-use Caffeinated\Shinobi\Twig\Node\Twig_Node_Can;
+use Caffeinated\Shinobi\Twig\Node\Twig_Node_Role;
 
-class Twig_TokenParser_Can extends Twig_TokenParser
+class Twig_TokenParser_Role extends Twig_TokenParser
 {
     public function parse(Twig_Token $token)
     {
@@ -27,7 +27,7 @@ class Twig_TokenParser_Can extends Twig_TokenParser
                     $else = $this->parser->subparse(array($this, 'decideIfEnd'));
                     break;
 
-                case 'elsecan':
+                case 'elserole':
                     $expr = $this->parser->getExpressionParser()->parseExpression();
                     $stream->expect(Twig_Token::BLOCK_END_TYPE);
                     $body = $this->parser->subparse(array($this, 'decideIfFork'));
@@ -35,32 +35,32 @@ class Twig_TokenParser_Can extends Twig_TokenParser
                     $tests[] = $body;
                     break;
 
-                case 'endcan':
+                case 'endrole':
                     $end = true;
                     break;
 
                 default:
-                    throw new Twig_Error_Syntax(sprintf('Unexpected end of template. Twig was looking for the following tags "else", "elsecan", or "endcan" to close the "if" block started at line %d).', $lineno), $stream->getCurrent()->getLine(), $stream->getFilename());
+                    throw new Twig_Error_Syntax(sprintf('Unexpected end of template. Twig was looking for the following tags "else", "elseis", or "endis" to close the "is" block started at line %d).', $lineno), $stream->getCurrent()->getLine(), $stream->getFilename());
             }
         }
 
         $stream->expect(Twig_Token::BLOCK_END_TYPE);
 
-        return new Twig_Node_Can(new Twig_Node($tests), $else, $lineno, $this->getTag());
+        return new Twig_Node_Role(new Twig_Node($tests), $else, $lineno, $this->getTag());
     }
 
     public function decideIfFork(Twig_Token $token)
     {
-        return $token->test(array('elsecan', 'else', 'endcan'));
+        return $token->test(array('elserole', 'else', 'endrole'));
     }
 
     public function decideIfEnd(Twig_Token $token)
     {
-        return $token->test(array('endcan'));
+        return $token->test(array('endrole'));
     }
 
     public function getTag()
     {
-        return 'can';
+        return 'role';
     }
 }

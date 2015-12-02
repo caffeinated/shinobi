@@ -99,6 +99,8 @@ class ShinobiServiceProvider extends ServiceProvider
 
 		if ($engine == 'twig') {
 			$this->app['config']->push('sapling.tags', 'Caffeinated\Shinobi\Twig\TokenParser\Twig_TokenParser_Can');
+			$this->app['config']->push('sapling.tags', 'Caffeinated\Shinobi\Twig\TokenParser\Twig_TokenParser_CanAtLeast');
+			$this->app['config']->push('sapling.tags', 'Caffeinated\Shinobi\Twig\TokenParser\Twig_TokenParser_Role');
 		}
 	}
 }
