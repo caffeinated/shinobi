@@ -59,6 +59,14 @@ class ShinobiServiceProvider extends ServiceProvider
 		Blade::directive('endcanatleast', function($expression) {
 			return "<?php endif; ?>";
 		});
+
+		Blade::directive('is', function($expression) {
+			return "<?php if (\\Shinobi::is({$expression})): ?>";
+		});
+
+		Blade::directive('endis', function($expression) {
+			return "<?php endif; ?>";
+		});
 	}
 
 	/**
