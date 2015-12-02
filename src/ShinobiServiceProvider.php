@@ -66,11 +66,11 @@ class ShinobiServiceProvider extends ServiceProvider
 			return "<?php endif; ?>";
 		});
 
-		Blade::directive('is', function($expression) {
+		Blade::directive('role', function($expression) {
 			return "<?php if (\\Shinobi::is({$expression})): ?>";
 		});
 
-		Blade::directive('endis', function($expression) {
+		Blade::directive('endrole', function($expression) {
 			return "<?php endif; ?>";
 		});
 	}
