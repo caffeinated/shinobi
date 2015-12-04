@@ -11,7 +11,7 @@ class Role extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'slug', 'description'];
+	protected $fillable = ['name', 'slug', 'description', 'special'];
 
 	/**
 	 * The database table used by the model.
@@ -53,6 +53,14 @@ class Role extends Model
 	 */
 	public function can($permission)
 	{
+		if ($this->special === 'all-access') {
+			return true;
+		}
+
+		if ($this->special === 'no-access') {
+			return false;
+		}
+
 		$permissions = $this->getPermissions();
 
 		if (is_array($permission)) {
@@ -74,6 +82,14 @@ class Role extends Model
 	 */
 	public function canAtLeast(array $permission = array())
 	{
+		if ($this->special === 'all-access') {
+			return true;
+		}
+
+		if ($this->special === 'no-access') {
+			return false;
+		}
+
 		$permissions = $this->getPermissions();
 
 		$intersection       = array_intersect($permissions, $permission);

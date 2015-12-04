@@ -34,10 +34,10 @@ class UserHasPermission
     {
         if (! $this->auth->user()->can($permissions)) {
             if ($request->ajax()) {
-                return response('Unauthorized.', 401);
+                return response('Unauthorized.', 403);
             }
 
-            return abort(401);
+            abort(403, 'Unauthorized action.');
         }
 
         return $next($request);
