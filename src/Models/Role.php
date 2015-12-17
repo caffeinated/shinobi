@@ -40,6 +40,11 @@ class Role extends Model
 		return $this->belongsToMany('\Caffeinated\Shinobi\Models\Permission')->withTimestamps();
 	}
 
+	/**
+	 * Get permission slugs assigned to role.
+	 *
+	 * @return array
+	 */
 	public function getPermissions()
 	{
 		return $this->permissions->lists('slug')->all();
