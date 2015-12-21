@@ -53,3 +53,11 @@ You'll need to run the provided migrations against your database. Publish the mi
 php artisan vendor:publish
 php artisan migrate
 ```
+
+Awesome Shinobi
+---------------
+See what the awesome community behind Shinobi has built. Created something you'd like added? Send a pull-request or open an issue!
+
+### Open Source
+
+- [The Watchtower](https://github.com/SmarchSoftware/watchtower) - A front-end (GUI) package.
