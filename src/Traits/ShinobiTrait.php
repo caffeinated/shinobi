@@ -127,9 +127,10 @@ trait ShinobiTrait
 	 * Check if user has the given permission.
 	 *
 	 * @param  string $permission
+	 * @param array $arguments
 	 * @return bool
 	 */
-	public function can($permission)
+	public function can($permission, $arguments = [])
 	{
 		$can = false;
 
