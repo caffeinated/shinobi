@@ -135,12 +135,12 @@ trait ShinobiTrait
 		$can = false;
 
 		foreach ($this->roles as $role) {
-			if ($role->special === 'all-access') {
-				return true;
-			}
-
 			if ($role->special === 'no-access') {
 				return false;
+			}
+
+			if ($role->special === 'all-access') {
+				return true;
 			}
 
 			if ($role->can($permission)) {
@@ -162,12 +162,12 @@ trait ShinobiTrait
 		$can = false;
 
 		foreach ($this->roles as $role) {
-			if ($role->special === 'all-access') {
-				return true;
-			}
-
 			if ($role->special === 'no-access') {
 				return false;
+			}
+
+			if ($role->special === 'all-access') {
+				return true;
 			}
 
 			if ($role->canAtLeast($permissions)) {
