@@ -58,12 +58,12 @@ class Role extends Model
 	 */
 	public function can($permission)
 	{
-		if ($this->special === 'all-access') {
-			return true;
-		}
-
 		if ($this->special === 'no-access') {
 			return false;
+		}
+
+		if ($this->special === 'all-access') {
+			return true;
 		}
 
 		$permissions = $this->getPermissions();
@@ -87,12 +87,12 @@ class Role extends Model
 	 */
 	public function canAtLeast(array $permission = array())
 	{
-		if ($this->special === 'all-access') {
-			return true;
-		}
-
 		if ($this->special === 'no-access') {
 			return false;
+		}
+
+		if ($this->special === 'all-access') {
+			return true;
 		}
 
 		$permissions = $this->getPermissions();
