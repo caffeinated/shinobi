@@ -44,8 +44,6 @@ class UserHasPermission
         } else {
             $guest = Role::whereSlug('guest')->first();
 
-            dd($permissions);
-
             if ($guest) {
                 if (! $guest->can($permissions)) {
                     if ($request->ajax()) {
