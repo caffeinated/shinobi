@@ -12,12 +12,12 @@ class Twig_TokenParser_Role extends Twig_TokenParser
     public function parse(Twig_Token $token)
     {
         $lineno = $token->getLine();
-        $expr = $this->parser->getExpressionParser()->parseExpression();
+        $expr   = $this->parser->getExpressionParser()->parseExpression();
         $stream = $this->parser->getStream();
         $stream->expect(Twig_Token::BLOCK_END_TYPE);
-        $body = $this->parser->subparse(array($this, 'decideIfFork'));
+        $body  = $this->parser->subparse(array($this, 'decideIfFork'));
         $tests = array($expr, $body);
-        $else = null;
+        $else  = null;
 
         $end = false;
         while (!$end) {
@@ -30,7 +30,7 @@ class Twig_TokenParser_Role extends Twig_TokenParser
                 case 'elserole':
                     $expr = $this->parser->getExpressionParser()->parseExpression();
                     $stream->expect(Twig_Token::BLOCK_END_TYPE);
-                    $body = $this->parser->subparse(array($this, 'decideIfFork'));
+                    $body    = $this->parser->subparse(array($this, 'decideIfFork'));
                     $tests[] = $expr;
                     $tests[] = $body;
                     break;
@@ -40,7 +40,7 @@ class Twig_TokenParser_Role extends Twig_TokenParser
                     break;
 
                 default:
-                    throw new Twig_Error_Syntax(sprintf('Unexpected end of template. Twig was looking for the following tags "else", "elseis", or "endis" to close the "is" block started at line %d).', $lineno), $stream->getCurrent()->getLine(), $stream->getFilename());
+                    throw new Twig_Error_Syntax(sprintf('Unexpected end of template. Twig was looking for the following tags "else", "elserole", or "endrole" to close the "role" block started at line %d).', $lineno), $stream->getCurrent()->getLine(), $stream->getFilename());
             }
         }
 

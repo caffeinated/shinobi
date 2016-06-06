@@ -1,6 +1,7 @@
 <?php
 namespace Caffeinated\Shinobi;
 
+use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Contracts\Auth\Guard;
 
 class Shinobi
@@ -31,6 +32,12 @@ class Shinobi
     {
         if ($this->auth->check()) {
             return $this->auth->user()->can($permissions);
+        } else {
+            $guest = Role::whereSlug('guest')->first();
+
+            if ($guest) {
+                return $guest->can($permissions);
+            }
         }
 
         return false;
@@ -47,6 +54,12 @@ class Shinobi
     {
         if ($this->auth->check()) {
             return $this->auth->user()->canAtLeast($permissions);
+        } else {
+            $guest = Role::whereSlug('guest')->first();
+
+            if ($guest) {
+                return $guest->canAtLeast($permissions);
+            }
         }
 
         return false;
@@ -62,6 +75,10 @@ class Shinobi
     {
         if ($this->auth->check()) {
             return $this->auth->user()->is($role);
+        } else {
+            if ($role === 'guest') {
+                return true;
+            }
         }
 
         return false;
