@@ -40,7 +40,7 @@ trait ShinobiTrait
 	 * @param  string $slug
 	 * @return bool
 	 */
-	public function is($slug)
+	public function isRole($slug)
 	{
 		$slug = strtolower($slug);
 
@@ -198,7 +198,7 @@ trait ShinobiTrait
 		if (starts_with($method, 'is') and $method !== 'is') {
 			$role = substr($method, 2);
 
-			return $this->is($role);
+			return $this->isRole($role);
 		}
 
 		// Handle canDoSomething() methods
