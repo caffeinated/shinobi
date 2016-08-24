@@ -28,7 +28,7 @@ trait ShinobiTrait
 	public function getRoles()
 	{
 		if (! is_null($this->roles)) {
-			return $this->roles->lists('slug')->all();
+			return $this->roles->pluck('slug')->all();
 		}
 
 		return null;
