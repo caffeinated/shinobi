@@ -71,10 +71,10 @@ class Shinobi
 	 * @param  string $slug
 	 * @return bool
 	 */
-    public function is($role)
+    public function isRole($role)
     {
         if ($this->auth->check()) {
-            return $this->auth->user()->is($role);
+            return $this->auth->user()->isRole($role);
         } else {
             if ($role === 'guest') {
                 return true;
