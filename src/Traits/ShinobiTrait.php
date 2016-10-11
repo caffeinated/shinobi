@@ -28,7 +28,7 @@ trait ShinobiTrait
 	public function getRoles()
 	{
 		if (! is_null($this->roles)) {
-			return $this->roles->lists('slug')->all();
+			return $this->roles->pluck('slug')->all();
 		}
 
 		return null;
@@ -40,11 +40,11 @@ trait ShinobiTrait
 	 * @param  string $slug
 	 * @return bool
 	 */
-	public function is($slug)
+	public function isRole($slug)
 	{
 		$slug = strtolower($slug);
 
-		foreach ($this->roles as $role) {
+		foreach ($this->roles()->get() as $role) {
 			if ($role->slug == $slug) return true;
 		}
 
@@ -116,7 +116,7 @@ trait ShinobiTrait
 	{
 		$permissions = [[], []];
 
-		foreach ($this->roles as $role) {
+		foreach ($this->roles()->get() as $role) {
 			$permissions[] = $role->getPermissions();
 		}
 
@@ -134,7 +134,7 @@ trait ShinobiTrait
 	{
 		$can = false;
 
-		foreach ($this->roles as $role) {
+		foreach ($this->roles()->get() as $role) {
 			if ($role->special === 'no-access') {
 				return false;
 			}
@@ -161,7 +161,7 @@ trait ShinobiTrait
 	{
 		$can = false;
 
-		foreach ($this->roles as $role) {
+		foreach ($this->roles()->get() as $role) {
 			if ($role->special === 'no-access') {
 				return false;
 			}
@@ -198,7 +198,7 @@ trait ShinobiTrait
 		if (starts_with($method, 'is') and $method !== 'is') {
 			$role = substr($method, 2);
 
-			return $this->is($role);
+			return $this->isRole($role);
 		}
 
 		// Handle canDoSomething() methods

@@ -47,7 +47,7 @@ class Role extends Model
 	 */
 	public function getPermissions()
 	{
-		return $this->permissions->lists('slug')->all();
+		return $this->permissions->pluck('slug')->all();
 	}
 
 	/**
