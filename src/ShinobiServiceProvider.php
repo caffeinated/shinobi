@@ -65,7 +65,7 @@ class ShinobiServiceProvider extends ServiceProvider
 		});
 
 		Blade::directive('role', function($expression) {
-			return "<?php if (\\Shinobi::is({$expression})): ?>";
+			return "<?php if (\\Shinobi::isRole({$expression})): ?>";
 		});
 
 		Blade::directive('endrole', function($expression) {
