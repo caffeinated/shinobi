@@ -1,4 +1,5 @@
 <?php
+
 namespace Caffeinated\Shinobi;
 
 use Caffeinated\Shinobi\Models\Role;
@@ -66,11 +67,12 @@ class Shinobi
     }
 
     /**
-	 * Checks if user is assigned the given role.
-	 *
-	 * @param  string $slug
-	 * @return bool
-	 */
+     * Checks if user is assigned the given role.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
     public function isRole($role)
     {
         if ($this->auth->check()) {
