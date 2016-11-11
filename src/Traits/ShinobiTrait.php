@@ -44,7 +44,7 @@ trait ShinobiTrait
     {
         $slug = strtolower($slug);
 
-        foreach ($this->roles()->get() as $role) {
+        foreach ($this->roles as $role) {
             if ($role->slug == $slug) {
                 return true;
             }
@@ -121,7 +121,7 @@ trait ShinobiTrait
     {
         $permissions = [[], []];
 
-        foreach ($this->roles()->get() as $role) {
+        foreach ($this->roles as $role) {
             $permissions[] = $role->getPermissions();
         }
 
@@ -140,7 +140,7 @@ trait ShinobiTrait
     {
         $can = false;
 
-        foreach ($this->roles()->get() as $role) {
+        foreach ($this->roles as $role) {
             if ($role->special === 'no-access') {
                 return false;
             }
@@ -168,7 +168,7 @@ trait ShinobiTrait
     {
         $can = false;
 
-        foreach ($this->roles()->get() as $role) {
+        foreach ($this->roles as $role) {
             if ($role->special === 'no-access') {
                 return false;
             }

@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Shinobi\Models;
 
+use Cache;
 use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
@@ -27,7 +28,9 @@ class Permission extends Model
      */
     public function roles()
     {
-        return $this->belongsToMany('\Caffeinated\Shinobi\Models\Role')->withTimestamps();
+        return Cache::remember('caffeinated.shinobi.roles.'.$this->id, function () {
+            return $this->belongsToMany('\Caffeinated\Shinobi\Models\Role')->withTimestamps();
+        });
     }
 
     /**

@@ -54,7 +54,7 @@ class Shinobi
     public function canAtLeast($permissions)
     {
         if ($this->auth->check()) {
-            return $this->auth->user()->canAtLeast($permissions);
+            // return $this->auth->user()->canAtLeast($permissions);
         } else {
             $guest = Role::whereSlug('guest')->first();
 

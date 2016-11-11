@@ -22,6 +22,13 @@ class Role extends Model
     protected $table = 'roles';
 
     /**
+     * The cache tag used by the model.
+     *
+     * @var string
+     */
+    protected $tag = 'shinobi.roles';
+
+    /**
      * Roles can belong to many users.
      *
      * @return Model
@@ -48,7 +55,28 @@ class Role extends Model
      */
     public function getPermissions()
     {
+        $primaryKey = $this->primaryKey;
+        $cacheKey   = 'caffeinated.shinobi.permissions.'.$primaryKey;
+
+        if (method_exists(app()->make('cache')->getStore(), 'tags')) {
+            return app()->make('cache')->tags($this->tag)->remember($cacheKey, 60, function () {
+                return $this->permissions->pluck('slug')->all();
+            });
+        }
+
         return $this->permissions->pluck('slug')->all();
+    }
+
+    /**
+     * Flush the permission cache repository.
+     *
+     * @return void
+     */
+    public function flushPermissionCache()
+    {
+        if (method_exists(app()->make('cache')->getStore(), 'tags')) {
+            app()->make('cache')->tags($this->tag)->flush();
+        }
     }
 
     /**
@@ -71,8 +99,8 @@ class Role extends Model
         $permissions = $this->getPermissions();
 
         if (is_array($permission)) {
-            $permissionCount = count($permission);
-            $intersection = array_intersect($permissions, $permission);
+            $permissionCount   = count($permission);
+            $intersection      = array_intersect($permissions, $permission);
             $intersectionCount = count($intersection);
 
             return ($permissionCount == $intersectionCount) ? true : false;
@@ -100,7 +128,7 @@ class Role extends Model
 
         $permissions = $this->getPermissions();
 
-        $intersection = array_intersect($permissions, $permission);
+        $intersection      = array_intersect($permissions, $permission);
         $intersectionCount = count($intersection);
 
         return ($intersectionCount > 0) ? true : false;
@@ -118,6 +146,8 @@ class Role extends Model
         $permissions = $this->permissions;
 
         if (!$permissions->contains($permissionId)) {
+            $this->flushPermissionCache();
+
             return $this->permissions()->attach($permissionId);
         }
 
@@ -133,6 +163,8 @@ class Role extends Model
      */
     public function revokePermission($permissionId = '')
     {
+        $this->flushPermissionCache();
+
         return $this->permissions()->detach($permissionId);
     }
 
@@ -145,6 +177,8 @@ class Role extends Model
      */
     public function syncPermissions(array $permissionIds = [])
     {
+        $this->flushPermissionCache();
+
         return $this->permissions()->sync($permissionIds);
     }
 
@@ -155,6 +189,8 @@ class Role extends Model
      */
     public function revokeAllPermissions()
     {
+        $this->flushPermissionCache();
+
         return $this->permissions()->detach();
     }
 }

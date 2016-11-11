@@ -56,7 +56,6 @@ class UserHasPermission
             }
         }
 
-
         return $next($request);
     }
 }
