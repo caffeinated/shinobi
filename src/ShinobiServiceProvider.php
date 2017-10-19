@@ -3,6 +3,7 @@
 namespace Caffeinated\Shinobi;
 
 use Blade;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class ShinobiServiceProvider extends ServiceProvider
@@ -21,9 +22,13 @@ class ShinobiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/../migrations' => $this->app->databasePath().'/migrations',
-        ], 'migrations');
+        if (version_compare(Application::VERSION, '5.3.0', '<')) {
+            $this->publishes([
+                __DIR__.'/../migrations' => $this->app->databasePath().'/migrations',
+            ], 'migrations');
+        } else {
+            $this->loadMigrationsFrom(__DIR__.'/../migrations');
+        }
 
         $this->registerBladeDirectives();
     }

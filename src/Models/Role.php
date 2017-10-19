@@ -4,9 +4,12 @@ namespace Caffeinated\Shinobi\Models;
 
 use Config;
 use Illuminate\Database\Eloquent\Model;
+use Caffeinated\Shinobi\Traits\PermissionTrait;
 
 class Role extends Model
 {
+    use PermissionTrait;
+
     /**
      * The attributes that are fillable via mass assignment.
      *
@@ -22,11 +25,14 @@ class Role extends Model
     protected $table = 'roles';
 
     /**
-     * The cache tag used by the model.
+     * The shinobi cache tag used by the model.
      *
-     * @var string
+     * @return string
      */
-    protected $tag = 'shinobi.roles';
+    protected static function getShinobiTag()
+    {
+        return 'shinobi.roles';
+    }
 
     /**
      * Roles can belong to many users.
@@ -39,31 +45,12 @@ class Role extends Model
     }
 
     /**
-     * Roles can have many permissions.
-     *
-     * @return Model
-     */
-    public function permissions()
-    {
-        return $this->belongsToMany('\Caffeinated\Shinobi\Models\Permission')->withTimestamps();
-    }
-
-    /**
-     * Get permission slugs assigned to role.
+     * Get fresh permission slugs assigned to role from database.
      *
      * @return array
      */
-    public function getPermissions()
+    protected function getFreshPermissions()
     {
-        $primaryKey = $this[$this->primaryKey];
-        $cacheKey   = 'caffeinated.shinobi.permissions.'.$primaryKey;
-
-        if (method_exists(app()->make('cache')->getStore(), 'tags')) {
-            return app()->make('cache')->tags($this->tag)->remember($cacheKey, 60, function () {
-                return $this->permissions->pluck('slug')->all();
-            });
-        }
-
         return $this->permissions->pluck('slug')->all();
     }
 
@@ -74,9 +61,10 @@ class Role extends Model
      */
     public function flushPermissionCache()
     {
-        if (method_exists(app()->make('cache')->getStore(), 'tags')) {
-            app()->make('cache')->tags($this->tag)->flush();
-        }
+        parent::flushPermissionCache([
+          static::getShinobiTag(),
+          \Caffeinated\Shinobi\Traits\ShinobiTrait::getShinobiTag()
+        ]);
     }
 
     /**
@@ -96,17 +84,7 @@ class Role extends Model
             return true;
         }
 
-        $permissions = $this->getPermissions();
-
-        if (is_array($permission)) {
-            $permissionCount   = count($permission);
-            $intersection      = array_intersect($permissions, $permission);
-            $intersectionCount = count($intersection);
-
-            return ($permissionCount == $intersectionCount) ? true : false;
-        } else {
-            return in_array($permission, $permissions);
-        }
+        return $this->hasAllPermissions($permission, $this->getPermissions());
     }
 
     /**
@@ -126,71 +104,6 @@ class Role extends Model
             return true;
         }
 
-        $permissions = $this->getPermissions();
-
-        $intersection      = array_intersect($permissions, $permission);
-        $intersectionCount = count($intersection);
-
-        return ($intersectionCount > 0) ? true : false;
-    }
-
-    /**
-     * Assigns the given permission to the role.
-     *
-     * @param int $permissionId
-     *
-     * @return bool
-     */
-    public function assignPermission($permissionId = null)
-    {
-        $permissions = $this->permissions;
-
-        if (!$permissions->contains($permissionId)) {
-            $this->flushPermissionCache();
-
-            return $this->permissions()->attach($permissionId);
-        }
-
-        return false;
-    }
-
-    /**
-     * Revokes the given permission from the role.
-     *
-     * @param int $permissionId
-     *
-     * @return bool
-     */
-    public function revokePermission($permissionId = '')
-    {
-        $this->flushPermissionCache();
-
-        return $this->permissions()->detach($permissionId);
-    }
-
-    /**
-     * Syncs the given permission(s) with the role.
-     *
-     * @param array $permissionIds
-     *
-     * @return bool
-     */
-    public function syncPermissions(array $permissionIds = [])
-    {
-        $this->flushPermissionCache();
-
-        return $this->permissions()->sync($permissionIds);
-    }
-
-    /**
-     * Revokes all permissions from the role.
-     *
-     * @return bool
-     */
-    public function revokeAllPermissions()
-    {
-        $this->flushPermissionCache();
-
-        return $this->permissions()->detach();
+        return $this->hasAnyPermission($permission, $this->getPermissions());
     }
 }

@@ -4,6 +4,18 @@ namespace Caffeinated\Shinobi\Traits;
 
 trait ShinobiTrait
 {
+    use PermissionTrait;
+
+    /**
+     * The shinobi cache tag used by the user model.
+     *
+     * @return string
+     */
+    protected static function getShinobiTag()
+    {
+        return 'shinobi.users';
+    }
+
     /*
     |----------------------------------------------------------------------
     | Role Trait Methods
@@ -62,6 +74,12 @@ trait ShinobiTrait
      */
     public function assignRole($roleId = null)
     {
+        $this->flushPermissionCache();
+
+        if (!is_numeric($roleId)) {
+            $roleId = \Caffeinated\Shinobi\Models\Role::where('slug', $roleId)->pluck('id')->first();
+        }
+
         $roles = $this->roles;
 
         if (!$roles->contains($roleId)) {
@@ -80,6 +98,12 @@ trait ShinobiTrait
      */
     public function revokeRole($roleId = '')
     {
+        $this->flushPermissionCache();
+
+        if (!is_numeric($roleId)) {
+            $roleId = \Caffeinated\Shinobi\Models\Role::where('slug', $roleId)->pluck('id')->first();
+        }
+
         return $this->roles()->detach($roleId);
     }
 
@@ -92,6 +116,8 @@ trait ShinobiTrait
      */
     public function syncRoles(array $roleIds)
     {
+        $this->flushPermissionCache();
+
         return $this->roles()->sync($roleIds);
     }
 
@@ -102,6 +128,8 @@ trait ShinobiTrait
      */
     public function revokeAllRoles()
     {
+        $this->flushPermissionCache();
+
         return $this->roles()->detach();
     }
 
@@ -113,13 +141,23 @@ trait ShinobiTrait
     */
 
     /**
-     * Get all user role permissions.
+     * Get permission slugs assigned to user.
+     *
+     * @return array
+     */
+    public function getUserPermissions()
+    {
+        return $this->permissions->pluck('slug')->all();
+    }
+
+    /**
+     * Get all user role permissions fresh from database
      *
      * @return array|null
      */
-    public function getPermissions()
+    protected function getFreshPermissions()
     {
-        $permissions = [[], []];
+        $permissions = [[], $this->getUserPermissions()];
 
         foreach ($this->roles as $role) {
             $permissions[] = $role->getPermissions();
@@ -138,8 +176,6 @@ trait ShinobiTrait
      */
     public function can($permission, $arguments = [])
     {
-        $can = false;
-
         foreach ($this->roles as $role) {
             if ($role->special === 'no-access') {
                 return false;
@@ -148,13 +184,9 @@ trait ShinobiTrait
             if ($role->special === 'all-access') {
                 return true;
             }
-
-            if ($role->can($permission)) {
-                $can = true;
-            }
         }
 
-        return $can;
+        return $this->hasAllPermissions($permission, $this->getPermissions());
     }
 
     /**
@@ -166,8 +198,6 @@ trait ShinobiTrait
      */
     public function canAtLeast(array $permissions)
     {
-        $can = false;
-
         foreach ($this->roles as $role) {
             if ($role->special === 'no-access') {
                 return false;
@@ -178,11 +208,11 @@ trait ShinobiTrait
             }
 
             if ($role->canAtLeast($permissions)) {
-                $can = true;
+                return true;
             }
         }
 
-        return $can;
+        return false;
     }
 
     /*
@@ -204,14 +234,14 @@ trait ShinobiTrait
     {
         // Handle isRoleslug() methods
         if (starts_with($method, 'is') and $method !== 'is') {
-            $role = substr($method, 2);
+            $role = kebab_case(substr($method, 2));
 
             return $this->isRole($role);
         }
 
         // Handle canDoSomething() methods
         if (starts_with($method, 'can') and $method !== 'can') {
-            $permission = substr($method, 3);
+            $permission = kebab_case(substr($method, 3));
 
             return $this->can($permission);
         }
