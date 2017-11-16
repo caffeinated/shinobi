@@ -8,7 +8,9 @@ use Caffeinated\Shinobi\Traits\PermissionTrait;
 
 class Role extends Model
 {
-    use PermissionTrait;
+    use PermissionTrait {
+        flushPermissionCache as parentFlushPermissionCache;
+    }
 
     /**
      * The attributes that are fillable via mass assignment.
@@ -29,7 +31,7 @@ class Role extends Model
      *
      * @return string
      */
-    protected static function getShinobiTag()
+    public static function getShinobiTag()
     {
         return 'shinobi.roles';
     }
@@ -61,9 +63,11 @@ class Role extends Model
      */
     public function flushPermissionCache()
     {
-        parent::flushPermissionCache([
+        $userClass = config('auth.model') ?: config('auth.providers.users.model');
+        $usersTag = call_user_func([$userClass, 'getShinobiTag']);
+        static::parentFlushPermissionCache([
           static::getShinobiTag(),
-          \Caffeinated\Shinobi\Traits\ShinobiTrait::getShinobiTag()
+          $usersTag,
         ]);
     }
 

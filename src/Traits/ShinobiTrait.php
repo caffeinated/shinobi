@@ -11,7 +11,7 @@ trait ShinobiTrait
      *
      * @return string
      */
-    protected static function getShinobiTag()
+    public static function getShinobiTag()
     {
         return 'shinobi.users';
     }
