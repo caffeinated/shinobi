@@ -22,12 +22,18 @@ class ShinobiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__.'/../config/shinobi.php' => config_path('shinobi.php'),
+        ]);
+
         if (version_compare(Application::VERSION, '5.3.0', '<')) {
             $this->publishes([
-                __DIR__.'/../migrations' => $this->app->databasePath().'/migrations',
+                __DIR__ . '/../migrations' => $this->app->databasePath() . '/migrations',
             ], 'migrations');
         } else {
-            $this->loadMigrationsFrom(__DIR__.'/../migrations');
+            if (config('shinobi.run-migrations', true)) {
+                $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+            }
         }
 
         $this->registerBladeDirectives();
@@ -40,6 +46,10 @@ class ShinobiServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/shinobi.php', 'shinobi'
+        );
+
         $this->app->singleton('shinobi', function ($app) {
             $auth = $app->make('Illuminate\Contracts\Auth\Guard');
 
