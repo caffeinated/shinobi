@@ -3,18 +3,16 @@
     "description": "Laravel 5 Roles and Permissions",
     "keywords": ["shinobi", "roles", "permissions", "auth", "laravel", "caffeinated"],
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Shea Lewis",
-            "email": "shea.lewis89@gmail.com"
-        }
-    ],
+    "authors": [{
+        "name": "Shea Lewis",
+        "email": "shea.lewis89@gmail.com"
+    }],
     "require": {
         "php": ">=5.6.4",
-        "illuminate/database": "5.3.*|5.4.*|5.5.*|5.6.*",
-        "illuminate/support": "5.3.*|5.4.*|5.5.*|5.6.*",
-        "illuminate/filesystem": "5.3.*|5.4.*|5.5.*|5.6.*",
-        "illuminate/config": "5.3.*|5.4.*|5.5.*|5.6.*"
+        "illuminate/database": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*",
+        "illuminate/support": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*",
+        "illuminate/filesystem": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*",
+        "illuminate/config": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*"
     },
     "autoload": {
         "psr-4": {
@@ -42,11 +40,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-             "Caffeinated\\Shinobi\\Tests\\": "tests/"
+            "Caffeinated\\Shinobi\\Tests\\": "tests/"
         }
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-         "cs": "vendor/bin/phpcs src/*"
+        "cs": "vendor/bin/phpcs src/*"
     }
 }
