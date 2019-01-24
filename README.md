@@ -1,15 +1,21 @@
 Caffeinated Shinobi
 ===================
-[![Laravel 5.5](https://img.shields.io/badge/Laravel-5.3-orange.svg?style=flat-square)](http://laravel.com)
+[![Laravel](https://img.shields.io/badge/Laravel-orange.svg?style=flat-square)](http://laravel.com)
 [![Source](http://img.shields.io/badge/source-caffeinated/shinobi-blue.svg?style=flat-square)](https://github.com/caffeinated/shinobi)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
-Shinobi brings a simple and light-weight role-based permissions system to Laravel's built in Auth system. Shinobi brings support for the following ACL structure:
+Shinobi brings a simple and light-weight role-based permissions system to Laravel's built in Authorization Gate system. Shinobi brings support for the following ACL structure:
 
+- Every user can have zero or more permissions.
 - Every user can have zero or more roles.
 - Every role can have zero or more permissions.
+- Every role can have one of two special flags, `all-access` and `no-access`
 
-Permissions are then inherited to the user through the user's assigned roles.
+The permission check runs down the following path:
+1. Does the assigned role have a special flag?
+2. Does the user have the specified permission(s)?
+3. Does one of the user's roles have the specified permission(s)?
+4. If all previous steps result in no finds, authorization is denied.
 
 The package follows the FIG standards PSR-1, PSR-2, and PSR-4 to ensure a high level of interoperability between shared PHP code. At the moment the package is not unit tested, but is planned to be covered later down the road.
 
@@ -23,21 +29,6 @@ Begin by installing the package through Composer. The best way to do this is thr
 
 ```
 composer require caffeinated/shinobi
-```
-
-Once this operation is complete, simply add the service provider to your project's `config/app.php` file and run the provided migrations against your database.
-
-### Service Provider
-```php
-Caffeinated\Shinobi\ShinobiServiceProvider::class
-```
-
-### Migrations
-You'll need to run the provided migrations against your database. Publish the migration files using the `vendor:publish` Artisan command and run `migrate`:
-
-```
-php artisan vendor:publish
-php artisan migrate
 ```
 
 Awesome Shinobi

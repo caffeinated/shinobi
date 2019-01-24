@@ -3,86 +3,63 @@
 namespace Caffeinated\Shinobi;
 
 use Caffeinated\Shinobi\Models\Role;
-use Illuminate\Contracts\Auth\Guard;
+use Caffeinated\Shinobi\Models\Permission;
+use Caffeinated\Shinobi\Tactics\AssignRoleTo;
+use Caffeinated\Shinobi\Tactics\GivePermissionTo;
+use Caffeinated\Shinobi\Tactics\RevokePermissionFrom;
 
 class Shinobi
 {
     /**
-     * @var Illuminate\Contracts\Auth\Guard
+     * Fetch an instance of the Role model.
+     * 
+     * @return \Caffeinated\Shinobi\Models\Role
      */
-    protected $auth;
-
-    /**
-     * Create a new UserHasPermission instance.
-     *
-     * @param Guard $auth
-     */
-    public function __construct(Guard $auth)
+    public function role()
     {
-        $this->auth = $auth;
+        return app()->make(Role::class);
     }
 
     /**
-     * Checks if user has the given permissions.
-     *
-     * @param array|string $permissions
-     *
-     * @return bool
+     * Fetch an instance of the Permission model.
+     * 
+     * @return \Caffeinated\Shinobi\Models\Permission
      */
-    public function can($permissions)
+    public function permission()
     {
-        if ($this->auth->check()) {
-            return $this->auth->user()->can($permissions);
-        } else {
-            $guest = Role::whereSlug('guest')->first();
-
-            if ($guest) {
-                return $guest->can($permissions);
-            }
-        }
-
-        return false;
+        return app()->make(Permission::class);
     }
 
     /**
-     * Checks if user has at least one of the given permissions.
-     *
-     * @param array $permissions
-     *
-     * @return bool
+     * Assign roles to a user.
+     * 
+     * @param  string|array  $roles
+     * @return \Caffeinated\Shinobi\Tactic\AssignRoleTo
      */
-    public function canAtLeast($permissions)
+    public function assign($roles)
     {
-        if ($this->auth->check()) {
-            return $this->auth->user()->canAtLeast($permissions);
-        } else {
-            $guest = Role::whereSlug('guest')->first();
-
-            if ($guest) {
-                return $guest->canAtLeast($permissions);
-            }
-        }
-
-        return false;
+        return new AssignRoleTo($roles);
     }
-
+    
     /**
-     * Checks if user is assigned the given role.
-     *
-     * @param string $slug
-     *
-     * @return bool
+     * Give permissions to a user or role
+     * 
+     * @param  string|array  $permissions
+     * @return \Caffeinated\Shinobi\Tactic\GivePermissionTo
      */
-    public function isRole($role)
+    public function give($permissions)
     {
-        if ($this->auth->check()) {
-            return $this->auth->user()->isRole($role);
-        } else {
-            if ($role === 'guest') {
-                return true;
-            }
-        }
-
-        return false;
+        return new GivePermissionTo($permissions);
+    }
+    
+    /**
+     * Revoke permissions from a user or role
+     * 
+     * @param  string|array  $permissions
+     * @return \Caffeinated\Shinobi\Tactic\RevokePermissionFrom
+     */
+    public function revoke($permissions)
+    {
+        return new RevokePermissionFrom($permissions);
     }
 }

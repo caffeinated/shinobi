@@ -1,6 +1,6 @@
 {
     "name": "caffeinated/shinobi",
-    "description": "Laravel 5 Roles and Permissions",
+    "description": "Laravel Roles and Permissions",
     "keywords": ["shinobi", "roles", "permissions", "auth", "laravel", "caffeinated"],
     "license": "MIT",
     "authors": [{
@@ -8,11 +8,7 @@
         "email": "shea.lewis89@gmail.com"
     }],
     "require": {
-        "php": ">=5.6.4",
-        "illuminate/database": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*",
-        "illuminate/support": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*",
-        "illuminate/filesystem": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*",
-        "illuminate/config": "5.3.*|5.4.*|5.5.*|5.6.*|5.7.*"
+        "illuminate/support": "5.7.*"
     },
     "autoload": {
         "psr-4": {
@@ -20,9 +16,6 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "4.0-dev"
-        },
         "laravel": {
             "providers": [
                 "Caffeinated\\Shinobi\\ShinobiServiceProvider"
@@ -32,19 +25,5 @@
             }
         }
     },
-    "minimum-stability": "dev",
-    "require-dev": {
-        "phpunit/phpunit": "^6.4",
-        "squizlabs/php_codesniffer": "3.*",
-        "orchestra/testbench": "~3.0"
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Caffeinated\\Shinobi\\Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "cs": "vendor/bin/phpcs src/*"
-    }
+    "minimum-stability": "dev"
 }
