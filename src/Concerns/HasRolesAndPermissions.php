@@ -23,4 +23,21 @@ trait HasRolesAndPermissions
 
         return false;
     }
+
+    protected function hasPermissionFlags()
+    {
+        return (bool) (auth()->user()->roles->filter(function($role) {
+            return ! is_null($role->special);
+        })->count());
+    }
+
+    protected function hasPermissionThroughFlag()
+    {
+        return ! (auth()->user()->roles
+            ->filter(function($role) {
+                return ! is_null($role->special);
+            })
+            ->pluck('special')
+            ->contains('no-access'));
+    }
 }

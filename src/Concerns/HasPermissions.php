@@ -26,6 +26,11 @@ trait HasPermissions
      */
     public function hasPermissionTo($permission)
     {
+        // Check role flags
+        if ($this->hasPermissionFlags()) {
+            return $this->hasPermissionThroughFlag();
+        }
+
         // Check role permissions
         if ($this->hasPermissionThroughRole($permission)) {
             return true;
