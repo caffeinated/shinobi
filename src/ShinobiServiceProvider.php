@@ -52,15 +52,7 @@ class ShinobiServiceProvider extends ServiceProvider
     protected function registerGates()
     {
         if (Schema::hasTable('permissions')) {
-            Role::get()->filter(function($role) {
-                return (! is_null($role->special));
-            })->map(function($role) {
-                Gate::before(function($user) use ($role) {
-                    return ($role->special == 'all-access') ? true : false;
-                });
-            });
-
-            Permission::get()->map(function($permission) {
+            Permission::with('roles')->get()->map(function($permission) {
                 Gate::define($permission->slug, function($user) use ($permission) {
                     return $user->hasPermissionTo($permission);
                 });
