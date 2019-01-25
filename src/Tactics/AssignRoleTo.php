@@ -19,7 +19,7 @@ class AssignRoleTo
         $this->roles = array_flatten($roles);
     }
 
-    public function to(User $user)
+    public function to($user)
     {
         $user->assignRoles($this->roles);
     }
