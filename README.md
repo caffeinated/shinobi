@@ -1,40 +1,52 @@
-Caffeinated Shinobi
-===================
-[![Laravel](https://img.shields.io/badge/Laravel-orange.svg?style=flat-square)](http://laravel.com)
-[![Source](http://img.shields.io/badge/source-caffeinated/shinobi-blue.svg?style=flat-square)](https://github.com/caffeinated/shinobi)
-[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
+# Caffeinated Shinobi
+[![Source](https://img.shields.io/badge/source-caffeinated/shinobi-blue.svg?style=flat-square)](https://github.com/caffeinated/shinobi)
+[![Latest Stable Version](https://poser.pugx.org/caffeinated/shinobi/v/stable?format=flat-square)](https://packagist.org/packages/caffeinated/shinobi)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
+[![Total Downloads](https://img.shields.io/packagist/dt/caffeinated/shinobi.svg?style=flat-square)](https://packagist.org/packages/caffeinated/shinobi)
 
-Shinobi brings a simple and light-weight role-based permissions system to Laravel's built in Authorization Gate system. Shinobi brings support for the following ACL structure:
+A simple and light-weight role-based permissions system for Laravel's Authorization Gate system.
 
 - Every user can have zero or more permissions.
 - Every user can have zero or more roles.
 - Every role can have zero or more permissions.
 - Every role can have one of two special flags, `all-access` and `no-access`
 
-The permission check runs down the following path:
-1. Does the assigned role have a special flag?
-2. Does the user have the specified permission(s)?
-3. Does one of the user's roles have the specified permission(s)?
-4. If all previous steps result in no finds, authorization is denied.
+## Documentation
+(_Coming Soon_) You will find user friendly and updated documentation on the [Caffeinated website](https://caffeinatedpackages.com/guide/packages/shinobi.html).
 
-The package follows the FIG standards PSR-1, PSR-2, and PSR-4 to ensure a high level of interoperability between shared PHP code. At the moment the package is not unit tested, but is planned to be covered later down the road.
-
-Documentation
--------------
-You will find user friendly documentation in the wiki here: [Caffeinated Shinobi Wiki](https://github.com/caffeinated/shinobi/wiki)
-
-Quick Installation
-------------------
-Begin by installing the package through Composer. The best way to do this is through your terminal via Composer itself:
+## Installation
+Simply install the package through Composer. From here the package will automatically register its service provider and `Shinobi` facade.
 
 ```
 composer require caffeinated/shinobi
 ```
 
-Awesome Shinobi
----------------
-See what the awesome community behind Shinobi has built. Created something you'd like added? Send a pull-request or open an issue!
+### Config
+To publish the config file, run the following:
 
-### Open Source
+```
+php artisan vendor:publish --provider="Caffeinated\Shinobi\ShinobiServiceProvider" --tag="config"
+```
 
-- [The Watchtower](https://github.com/SmarchSoftware/watchtower) - A front-end (GUI) package.
+## Changelog
+You will find a complete changelog history within the [CHANGELOG](CHANGELOG.md) file.
+
+## Contributing
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Testing
+Run tests with PHPUnit:
+
+```bash
+vendor/bin/phpunit
+```
+
+## Security
+If you discover any security related issues, please email shea.lewis89@gmail.com directly instead of using the issue tracker.
+
+## Credits
+- [Shea Lewis](https://github.com/kaidesu)
+- [All Contributors](../../contributors)
+
+## License
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
