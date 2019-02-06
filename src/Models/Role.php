@@ -4,8 +4,10 @@ namespace Caffeinated\Shinobi\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Caffeinated\Shinobi\Concerns\HasPermissions;
+use Caffeinated\Shinobi\Contracts\Role as RoleContract;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Role extends Model
+class Role extends Model implements RoleContract
 {
     use HasPermissions;
     
@@ -28,7 +30,7 @@ class Role extends Model
      *
      * @return Model
      */
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(config('auth.model') ?: config('auth.providers.users.model'))->withTimestamps();
     }

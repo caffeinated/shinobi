@@ -2,8 +2,6 @@
 
 namespace Caffeinated\Shinobi;
 
-use Caffeinated\Shinobi\Models\Role;
-use Caffeinated\Shinobi\Models\Permission;
 use Caffeinated\Shinobi\Tactics\AssignRoleTo;
 use Caffeinated\Shinobi\Tactics\GivePermissionTo;
 use Caffeinated\Shinobi\Tactics\RevokePermissionFrom;
@@ -13,21 +11,21 @@ class Shinobi
     /**
      * Fetch an instance of the Role model.
      * 
-     * @return \Caffeinated\Shinobi\Models\Role
+     * @return Role
      */
     public function role()
     {
-        return app()->make(Role::class);
+        return app()->make(config('shinobi.models.role'));
     }
 
     /**
      * Fetch an instance of the Permission model.
      * 
-     * @return \Caffeinated\Shinobi\Models\Permission
+     * @return Permission
      */
     public function permission()
     {
-        return app()->make(Permission::class);
+        return app()->make(config('shinobi.models.permission'));
     }
 
     /**
@@ -36,7 +34,7 @@ class Shinobi
      * @param  string|array  $roles
      * @return \Caffeinated\Shinobi\Tactic\AssignRoleTo
      */
-    public function assign($roles)
+    public function assign($roles): AssignRoleTo
     {
         return new AssignRoleTo($roles);
     }
@@ -47,7 +45,7 @@ class Shinobi
      * @param  string|array  $permissions
      * @return \Caffeinated\Shinobi\Tactic\GivePermissionTo
      */
-    public function give($permissions)
+    public function give($permissions): GivePermissionTo
     {
         return new GivePermissionTo($permissions);
     }
@@ -58,7 +56,7 @@ class Shinobi
      * @param  string|array  $permissions
      * @return \Caffeinated\Shinobi\Tactic\RevokePermissionFrom
      */
-    public function revoke($permissions)
+    public function revoke($permissions): RevokePermissionFrom
     {
         return new RevokePermissionFrom($permissions);
     }

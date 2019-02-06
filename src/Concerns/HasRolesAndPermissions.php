@@ -13,7 +13,7 @@ trait HasRolesAndPermissions
      * @param  \Caffeinated\Shinobi\Models\Permission  $permission
      * @return boolean
      */
-    protected function hasPermissionThroughRole($permission)
+    protected function hasPermissionThroughRole($permission): bool
     {
         foreach ($permission->roles as $role) {
             if ($this->roles->contains($role)) {
@@ -24,14 +24,14 @@ trait HasRolesAndPermissions
         return false;
     }
 
-    protected function hasPermissionFlags()
+    protected function hasPermissionFlags(): bool
     {
         return (bool) (auth()->user()->roles->filter(function($role) {
             return ! is_null($role->special);
         })->count());
     }
 
-    protected function hasPermissionThroughFlag()
+    protected function hasPermissionThroughFlag(): bool
     {
         return ! (auth()->user()->roles
             ->filter(function($role) {

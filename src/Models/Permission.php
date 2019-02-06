@@ -3,8 +3,10 @@
 namespace Caffeinated\Shinobi\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Caffeinated\Shinobi\Contracts\Permission as PermissionContract;
 
-class Permission extends Model
+class Permission extends Model implements PermissionContract
 {
     /**
      * The attributes that are fillable via mass assignment.
@@ -25,8 +27,8 @@ class Permission extends Model
      *
      * @return Model
      */
-    public function roles()
+    public function roles(): BelongsToMany
     {
-        return $this->belongsToMany('\Caffeinated\Shinobi\Models\Role')->withTimestamps();
+        return $this->belongsToMany(config('shinobi.models.role'))->withTimestamps();
     }
 }

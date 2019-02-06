@@ -3,6 +3,7 @@
 namespace Caffeinated\Shinobi\Tactics;
 
 use Illuminate\Database\Eloquent\Model;
+use Caffeinated\Shinobi\Facades\Shinobi;
 
 class RevokePermissionsFrom
 {
@@ -26,7 +27,7 @@ class RevokePermissionsFrom
         if ($roleOrUser instanceof Model) {
             $instance = $roleOrUser;
         } else {
-            $instance = Role::where('slug', $roleOrUser)->firstOrFail();
+            $instance = Shinobi::role()->where('slug', $roleOrUser)->firstOrFail();
         }
 
         $instance->revokePermissionTo($this->permissions);

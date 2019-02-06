@@ -3,6 +3,7 @@
 namespace Caffeinated\Shinobi\Tactics;
 
 use Illuminate\Database\Eloquent\Model;
+use Caffeinated\Shinobi\Facades\Shinobi;
 
 class GivePermissionTo
 {
@@ -21,12 +22,17 @@ class GivePermissionTo
         $this->permissions = array_flatten($permissions);
     }
 
+    /**
+     * Give the permissions to the given user or role.
+     * 
+     * @param  Role|User  $roleOrUser
+     */
     public function to($roleOrUser)
     {
         if ($roleOrUser instanceof Model) {
             $instance = $roleOrUser;
         } else {
-            $instance = Role::where('slug', $roleOrUser)->firstOrFail();
+            $instance = Shinobi::role()->where('slug', $roleOrUser)->firstOrFail();
         }
 
         $instance->givePermissionTo($this->permissions);

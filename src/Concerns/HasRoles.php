@@ -2,18 +2,19 @@
 
 namespace Caffeinated\Shinobi\Concerns;
 
-use Caffeinated\Shinobi\Models\Role;
+use Caffeinated\Shinobi\Facades\Shinobi;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasRoles
 {
     /**
      * Users can have many roles.
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function roles()
+    public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class)->withTimestamps();
+        return $this->belongsToMany(config('shinobi.models.role'))->withTimestamps();
     }
 
     /**
@@ -22,14 +23,20 @@ trait HasRoles
      * @param  string  $role
      * @return boolean
      */
-    public function hasRole($role)
+    public function hasRole($role): bool
     {
         $slug = str_slug($role);
 
         return (bool) $this->roles->where('slug', $slug)->count();
     }
 
-    public function assignRoles(...$roles)
+    /**
+     * Assign the specified roles to the model.
+     * 
+     * @param  mixed  $roles,...
+     * @return self
+     */
+    public function assignRoles(...$roles): self
     {
         $roles = array_flatten($roles);
         $roles = $this->getRoles($roles);
@@ -43,7 +50,13 @@ trait HasRoles
         return $this;
     }
 
-    public function removeRoles(...$roles)
+    /**
+     * Remove the specified roles from the model.
+     * 
+     * @param  mixed  $roles,...
+     * @return self
+     */
+    public function removeRoles(...$roles): self
     {
         $roles = array_flatten($roles);
         $roles = $this->getRoles($roles);
@@ -53,7 +66,13 @@ trait HasRoles
         return $this;
     }
 
-    public function syncRoles(...$roles)
+    /**
+     * Sync the specified roles to the model.
+     * 
+     * @param  mixed  $roles,...
+     * @return self
+     */
+    public function syncRoles(...$roles): self
     {
         $roles = array_flatten($roles);
         $roles = $this->getRoles($roles);
@@ -63,8 +82,14 @@ trait HasRoles
         return $this;
     }
 
+    /**
+     * Get the specified roles.
+     * 
+     * @param  array  $roles
+     * @return Role
+     */
     protected function getRoles(array $roles)
     {
-        return Role::whereIn('slug', $roles)->get();
+        return Shinobi::role()->whereIn('slug', $roles)->get();
     }
 }

@@ -8,6 +8,7 @@ use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Caffeinated\Shinobi\Facades\Shinobi;
 use Caffeinated\Shinobi\Models\Permission;
 
 class ShinobiServiceProvider extends ServiceProvider
@@ -20,6 +21,7 @@ class ShinobiServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishConfig();
+        $this->publishMigrations();
         $this->loadMigrations();
 
         $this->registerGates();
@@ -52,7 +54,7 @@ class ShinobiServiceProvider extends ServiceProvider
     protected function registerGates()
     {
         if (Schema::hasTable('permissions')) {
-            Permission::with('roles')->get()->map(function($permission) {
+            Shinobi::permission()->with('roles')->get()->map(function($permission) {
                 Gate::define($permission->slug, function($user) use ($permission) {
                     return $user->hasPermissionTo($permission);
                 });
@@ -85,7 +87,19 @@ class ShinobiServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../config/shinobi.php' => config_path('shinobi.php'),
-        ]);
+        ], 'config');
+    }
+
+    /**
+     * Publish the migration files.
+     * 
+     * @return void
+     */
+    protected function publishMigrations()
+    {
+        $this->publishes([
+            __DIR__.'/../database/migrations/' => database_path('migrations'),
+        ], 'migrations');
     }
 
     /**
@@ -95,6 +109,8 @@ class ShinobiServiceProvider extends ServiceProvider
      */
     protected function loadMigrations()
     {
-        $this->loadMigrationsFrom(__DIR__.'/../migrations');
+        if (config('shinobi.migrate', true)) {
+            $this->loadMigrationsFrom(__DIR__.'/../migrations');
+        }
     }
 }

@@ -2,7 +2,8 @@
 
 namespace Caffeinated\Shinobi\Concerns;
 
-use Caffeinated\Shinobi\Models\Permission;
+use Caffeinated\Shinobi\Facades\Shinobi;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasPermissions
 {
@@ -11,9 +12,9 @@ trait HasPermissions
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function permissions()
+    public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Permission::class)->withTimestamps();
+        return $this->belongsToMany(config('shinobi.models.permission'))->withTimestamps();
     }
 
     /**
@@ -21,10 +22,10 @@ trait HasPermissions
      * by Shinobi - checking for special flags, role permissions, and
      * individual user permissions; in that order.
      * 
-     * @param  \Caffeinated\Shinobi\Models\Permission  $permission
+     * @param  Permission  $permission
      * @return boolean
      */
-    public function hasPermissionTo($permission)
+    public function hasPermissionTo($permission): bool
     {
         // Check role flags
         if ($this->hasPermissionFlags()) {
@@ -44,7 +45,7 @@ trait HasPermissions
         return false;
     }
 
-    public function givePermissionTo(...$permissions)
+    public function givePermissionTo(...$permissions): self
     {
         $permissions = array_flatten($permissions);
         $permissions = $this->getPermissions($permissions);
@@ -58,7 +59,7 @@ trait HasPermissions
         return $this;
     }
 
-    public function revokePermissionTo(...$permissions)
+    public function revokePermissionTo(...$permissions): self
     {
         $permissions = array_flatten($permissions);
         $permissions = $this->getPermissions($permissions);
@@ -68,7 +69,7 @@ trait HasPermissions
         return $this;
     }
 
-    public function syncPermissions(...$permissions)
+    public function syncPermissions(...$permissions): self
     {
         $permissions = array_flatten($permissions);
         $permissions = $this->getPermissions($permissions);
@@ -78,9 +79,15 @@ trait HasPermissions
         return $this;
     }
 
+    /**
+     * Get specified permissions.
+     * 
+     * @param  array  $permissions
+     * @return Permission
+     */
     protected function getPermissions(array $permissions)
     {
-        return Permission::whereIn('slug', $permissions)->get();
+        return Shinobi::permission()->whereIn('slug', $permissions)->get();
     }
 
     /**
@@ -89,7 +96,7 @@ trait HasPermissions
      * @param  \Caffeinated\Shinobi\Models\Permission  $permission
      * @return boolean
      */
-    protected function hasPermission($permission)
+    protected function hasPermission($permission): bool
     {
         return (bool) $this->permissions->where('slug', $permission->slug)->count();
     }
