@@ -2,9 +2,10 @@
 
 namespace Caffeinated\Shinobi;
 
-use Gate;
-use Blade;
+use Exception;
+use Illuminate\Support\Facades\Gate;
 use Caffeinated\Shinobi\Models\Role;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -53,13 +54,17 @@ class ShinobiServiceProvider extends ServiceProvider
      */
     protected function registerGates()
     {
-        if (Schema::hasTable('permissions')) {
-            Shinobi::permission()->with('roles')->get()->map(function($permission) {
-                Gate::define($permission->slug, function($user) use ($permission) {
-                    return $user->hasPermissionTo($permission);
-                });
-            });
-        }
+        Gate::before(function($user, $permission) {
+            try {
+                if (method_exists($user, 'hasPermissionTo')) {
+                    $permission = Shinobi::permission()->where('slug', $permission)->firstOrFail();
+
+                    return $user->hasPermissionTo($permission) ?: null;
+                }
+            } catch (Exception $e) {
+                // 
+            }
+        });
     }
 
     /**
