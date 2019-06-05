@@ -103,7 +103,7 @@ class ShinobiServiceProvider extends ServiceProvider
     protected function publishMigrations()
     {
         $this->publishes([
-            __DIR__.'/../database/migrations/' => database_path('migrations'),
+            __DIR__.'/../migrations/' => database_path('migrations'),
         ], 'migrations');
     }
 
