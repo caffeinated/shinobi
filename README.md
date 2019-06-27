@@ -3,6 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/caffeinated/shinobi/v/stable?format=flat-square)](https://packagist.org/packages/caffeinated/shinobi)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 [![Total Downloads](https://img.shields.io/packagist/dt/caffeinated/shinobi.svg?style=flat-square)](https://packagist.org/packages/caffeinated/shinobi)
+[![Travis (.org)](https://img.shields.io/travis/caffeinated/shinobi.svg?style=flat-square)](https://travis-ci.org/caffeinated/shinobi)
 
 A simple and light-weight role-based permissions system for Laravel's Authorization Gate system.
 
@@ -12,7 +13,7 @@ A simple and light-weight role-based permissions system for Laravel's Authorizat
 - Every role can have one of two special flags, `all-access` and `no-access`
 
 ## Documentation
-(_Coming Soon_) You will find user friendly and updated documentation on the [Caffeinated website](https://caffeinatedpackages.com/guide/packages/shinobi.html).
+You will find user friendly and updated documentation on the [Caffeinated website](https://caffeinatedpackages.com/guide/packages/shinobi.html).
 
 ## Installation
 Simply install the package through Composer. From here the package will automatically register its service provider and `Shinobi` facade.
