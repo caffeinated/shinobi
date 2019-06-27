@@ -15,29 +15,28 @@ trait HasRolesAndPermissions
      */
     protected function hasPermissionThroughRole($permission): bool
     {
-        foreach ($permission->roles as $role) {
-            if ($this->roles->contains($role)) {
-                return true;
+        if ($this->hasRoles()) {
+            foreach ($this->roles as $role) {
+                if ($this->roles->contains($role)) {
+                    return true;
+                }
             }
         }
 
         return false;
     }
 
-    protected function hasPermissionFlags(): bool
+    protected function hasPermissionThroughRoleFlag(): bool
     {
-        return (bool) (auth()->user()->roles->filter(function($role) {
-            return ! is_null($role->special);
-        })->count());
-    }
+        if ($this->hasRoles()) {
+            return ! ($this->roles
+                ->filter(function($role) {
+                    return ! is_null($role->special);
+                })
+                ->pluck('special')
+                ->contains('no-access'));
+        }
 
-    protected function hasPermissionThroughFlag(): bool
-    {
-        return ! (auth()->user()->roles
-            ->filter(function($role) {
-                return ! is_null($role->special);
-            })
-            ->pluck('special')
-            ->contains('no-access'));
+        return false;
     }
 }

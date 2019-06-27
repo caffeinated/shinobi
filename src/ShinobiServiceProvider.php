@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Caffeinated\Shinobi\Facades\Shinobi;
 use Caffeinated\Shinobi\Models\Permission;
+use Illuminate\Contracts\Auth\Access\Authorizable;
 
 class ShinobiServiceProvider extends ServiceProvider
 {
@@ -54,11 +55,9 @@ class ShinobiServiceProvider extends ServiceProvider
      */
     protected function registerGates()
     {
-        Gate::before(function($user, $permission) {
+        Gate::before(function(Authorizable $user, String $permission) {
             try {
                 if (method_exists($user, 'hasPermissionTo')) {
-                    $permission = Shinobi::permission()->where('slug', $permission)->firstOrFail();
-
                     return $user->hasPermissionTo($permission) ?: null;
                 }
             } catch (Exception $e) {
@@ -74,12 +73,8 @@ class ShinobiServiceProvider extends ServiceProvider
      */
     protected function registerBladeDirectives()
     {
-        Blade::directive('role', function ($expression) {
-            return "<?php if (\\Shinobi::isRole({$expression})): ?>";
-        });
-
-        Blade::directive('endrole', function ($expression) {
-            return '<?php endif; ?>';
+        Blade::if('role', function($role) {
+            return auth()->user() and auth()->user()->hasRole($role);
         });
     }
 

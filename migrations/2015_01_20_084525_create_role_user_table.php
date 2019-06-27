@@ -12,7 +12,9 @@ class CreateRoleUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('role_user', function (Blueprint $table) {
+        $name = config('shinobi.tables.role_user');
+
+        Schema::create($name, function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('role_id')->index();
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
@@ -29,6 +31,8 @@ class CreateRoleUserTable extends Migration
      */
     public function down()
     {
-        Schema::drop('role_user');
+        $name = config('shinobi.tables.role_user');
+
+        Schema::drop($name);
     }
 }

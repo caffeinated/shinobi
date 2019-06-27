@@ -16,11 +16,17 @@ class Permission extends Model implements PermissionContract
     protected $fillable = ['name', 'slug', 'description'];
 
     /**
-     * The database table used by the model.
-     *
-     * @var string
+     * Create a new Permission instance.
+     * 
+     * @param  array  $attributes
+     * @return void
      */
-    protected $table = 'permissions';
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setTable(config('shinobi.tables.permissions'));
+    }
 
     /**
      * Permissions can belong to many roles.

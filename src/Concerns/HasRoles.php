@@ -2,7 +2,7 @@
 
 namespace Caffeinated\Shinobi\Concerns;
 
-use Caffeinated\Shinobi\Facades\Shinobi;
+use Caffeinated\Shinobi\Contracts\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasRoles
@@ -28,6 +28,11 @@ trait HasRoles
         $slug = str_slug($role);
 
         return (bool) $this->roles->where('slug', $slug)->count();
+    }
+
+    public function hasRoles(): bool
+    {
+        return (bool) $this->roles->count();
     }
 
     /**
@@ -90,6 +95,38 @@ trait HasRoles
      */
     protected function getRoles(array $roles)
     {
-        return Shinobi::role()->whereIn('slug', $roles)->get();
+        return array_map(function($role) {
+            $model = $this->getRoleModel();
+
+            if ($role instanceof $model) {
+                return $role->id;
+            }
+
+            $role = $model->where('slug', $role)->first();
+
+            return $role->id;
+        }, $roles);
+    }
+
+    public function hasPermissionRoleFlags()
+    {
+        if ($this->hasRoles()) {
+            return ($this->roles
+                ->filter(function($role) {
+                    return ! is_null($role->special);
+                })->count()) >= 1;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the model instance responsible for permissions.
+     * 
+     * @return \Caffeinated\Shinobi\Contracts\Role
+     */
+    protected function getRoleModel(): Role
+    {
+        return app()->make(config('shinobi.models.role'));
     }
 }

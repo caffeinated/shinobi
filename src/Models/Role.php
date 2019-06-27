@@ -19,11 +19,17 @@ class Role extends Model implements RoleContract
     protected $fillable = ['name', 'slug', 'description', 'special'];
 
     /**
-     * The database table used by the model.
-     *
-     * @var string
+     * Create a new Role instance.
+     * 
+     * @param  array  $attributes
+     * @return void
      */
-    protected $table = 'roles';
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setTable(config('shinobi.tables.roles'));
+    }
 
     /**
      * Roles can belong to many users.
@@ -33,5 +39,30 @@ class Role extends Model implements RoleContract
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(config('auth.model') ?: config('auth.providers.users.model'))->withTimestamps();
+    }
+
+    /**
+     * Determine if role has permission flags.
+     * 
+     * @return bool
+     */
+    public function hasPermissionFlags(): bool
+    {
+        return ! is_null($this->special);
+    }
+
+    /**
+     * Determine if the requested permission is permitted or denied
+     * through a special role flag.
+     * 
+     * @return bool
+     */
+    public function hasPermissionThroughFlag(): bool
+    {
+        if ($this->hasPermissionFlags()) {
+            return ! ($this->special === 'no-access');
+        }
+
+        return true;
     }
 }

@@ -8,7 +8,9 @@ class CreatePermissionUserTable extends Migration
 {
     public function up()
     {
-        Schema::create('permission_user', function (Blueprint $table) {
+        $name = config('shinobi.tables.permission_user');
+
+        Schema::create($name, function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('permission_id')->index();
             $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
@@ -25,7 +27,9 @@ class CreatePermissionUserTable extends Migration
      */
     public function down()
     {
-        Schema::drop('permission_user');
+        $name = config('shinobi.tables.permission_user');
+
+        Schema::drop($name);
     }
 
 }

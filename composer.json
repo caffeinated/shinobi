@@ -15,6 +15,11 @@
             "Caffeinated\\Shinobi\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Caffeinated\\Shinobi\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
@@ -25,5 +30,9 @@
             }
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "orchestra/testbench": "^3.7",
+        "doctrine/dbal": "^2.10@dev"
+    }
 }
