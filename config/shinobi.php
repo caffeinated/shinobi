@@ -2,6 +2,44 @@
 
 return [
 
+    /*
+    |--------------------------------------------------------------------------
+    | Experimental Cache
+    |--------------------------------------------------------------------------
+    |
+    | Shinobi ships with an experimental caching layer in an attempt to lessen
+    | the load on resources when checking and validating permissions. By
+    | default this is disabled, please enable to provide feedback.
+    */
+
+    'cache' => [
+
+        /**
+         * You may enable or disable the built in caching system. This is useful
+         * when debugging your application. If your application already has its
+         * own caching layer, we suggest disabling the cache here as well.
+         */
+
+        'enabled' => false,
+
+        /**
+         * Define the length of time permissions should be cached for before being
+         * refreshed. Accepted values are either in seconds or as a DateInterval
+         * object. By default we cache for 86400 seconds (aka, 24 hours).
+         */
+
+        'length' => 60 * 60 * 24,
+
+        /**
+         * When using a cache driver that supports tags, we'll tag the shinobi
+         * cache with this tag. This is useful for busting only the cache
+         * responsible for storing permissions and not anything else.
+         */
+
+        'tag' => 'shinobi',
+
+    ],
+
     'models' => [
 
         /*

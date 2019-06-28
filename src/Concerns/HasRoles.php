@@ -30,6 +30,40 @@ trait HasRoles
         return (bool) $this->roles->where('slug', $slug)->count();
     }
 
+    /**
+     * Checks if the model has any of the given roles assigned.
+     * 
+     * @param  array  $roles
+     * @return bool
+     */
+    public function hasAnyRole(...$roles): bool
+    {
+        foreach ($roles as $role) {
+            if ($this->hasRole($role)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the model has all of the given roles assigned.
+     * 
+     * @param  array  $roles
+     * @return bool
+     */
+    public function hasAllRoles(...$roles): bool
+    {
+        foreach ($roles as $role) {
+            if (! $this->hasRole($role)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function hasRoles(): bool
     {
         return (bool) $this->roles->count();

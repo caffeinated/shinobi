@@ -4,10 +4,13 @@ namespace Caffeinated\Shinobi\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Caffeinated\Shinobi\Concerns\RefreshesPermissionCache;
 use Caffeinated\Shinobi\Contracts\Permission as PermissionContract;
 
 class Permission extends Model implements PermissionContract
 {
+    use RefreshesPermissionCache;
+    
     /**
      * The attributes that are fillable via mass assignment.
      *

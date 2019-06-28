@@ -119,19 +119,19 @@ trait HasPermissions
      * @param  array  $permissions
      * @return Permission
      */
-    protected function getPermissions(array $permissions)
+    protected function getPermissions(array $collection)
     {
         return array_map(function($permission) {
             $model = $this->getPermissionModel();
 
-            if ($permission instanceof $model) {
+            if ($permission instanceof Permission) {
                 return $permission->id;
             }
 
             $permission = $model->where('slug', $permission)->first();
 
             return $permission->id;
-        }, $permissions);
+        }, $collection);
     }
 
     /**
@@ -144,7 +144,7 @@ trait HasPermissions
     {
         $model = $this->getPermissionModel();
 
-        if ($permission instanceof $model) {
+        if ($permission instanceof Permission) {
             $permission = $permission->slug;
         }
 
@@ -154,10 +154,20 @@ trait HasPermissions
     /**
      * Get the model instance responsible for permissions.
      * 
-     * @return \Caffeinated\Shinobi\Contracts\Permission
+     * @return \Caffeinated\Shinobi\Contracts\Permission|\Illuminate\Database\Eloquent\Collection
      */
-    protected function getPermissionModel(): Permission
+    protected function getPermissionModel()
     {
+        if (config('shinobi.cache.enabled')) {
+            return cache()->tags(config('shinobi.cache.tag'))->remember(
+                'permissions',
+                config('shinobi.cache.length'),
+                function() {
+                    return app()->make(config('shinobi.models.permission'))->get();
+                }
+            );
+        }
+
         return app()->make(config('shinobi.models.permission'));
     }
 }

@@ -233,4 +233,65 @@ class UserTest extends TestCase
 
         $this->assertFalse($user->fresh()->hasPermissionTo($permission->slug));
     }
+
+    /** @test */
+    public function it_can_verify_it_has_defined_role()
+    {
+        $user = factory(User::class)->create();
+        $role = factory(Role::class)->create();
+
+        $this->assertFalse($user->fresh()->hasRole($role->slug));
+
+        $user->assignRoles($role);
+
+        $this->assertTrue($user->fresh()->hasRole($role->slug));
+    }
+
+    /** @test */
+    public function it_can_verify_it_has_any_defined_role()
+    {
+        $editor = factory(Role::class)->create([
+            'name' => 'Editor',
+            'slug' => 'editor',
+        ]);
+            
+        $moderator = factory(Role::class)->create([
+            'name' => 'Moderator',
+            'slug' => 'moderator',
+        ]);
+                
+        $user = factory(User::class)->create();
+
+        $this->assertFalse($user->fresh()->hasAnyRole('moderator', 'editor'));
+
+        $user->assignRoles($editor);
+
+        $this->assertTrue($user->fresh()->hasAnyRole('moderator', 'editor'));
+    }
+
+     /** @test */
+    public function it_can_verify_it_has_all_defined_roles()
+    {
+        $editor = factory(Role::class)->create([
+            'name' => 'Editor',
+            'slug' => 'editor',
+        ]);
+            
+        $moderator = factory(Role::class)->create([
+            'name' => 'Moderator',
+            'slug' => 'moderator',
+        ]);
+        
+        $user = factory(User::class)->create();
+
+        $this->assertFalse($user->fresh()->hasAllRoles('moderator', 'editor'));
+
+        $user->assignRoles($editor);
+
+        $this->assertFalse($user->fresh()->hasAllRoles('moderator', 'editor'));
+
+        $user->assignRoles($moderator);
+
+        $this->assertTrue($user->fresh()->hasAllRoles('moderator', 'editor'));
+    }
 }

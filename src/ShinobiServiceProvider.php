@@ -4,13 +4,9 @@ namespace Caffeinated\Shinobi;
 
 use Exception;
 use Illuminate\Support\Facades\Gate;
-use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Caffeinated\Shinobi\Facades\Shinobi;
-use Caffeinated\Shinobi\Models\Permission;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 
 class ShinobiServiceProvider extends ServiceProvider
@@ -75,6 +71,14 @@ class ShinobiServiceProvider extends ServiceProvider
     {
         Blade::if('role', function($role) {
             return auth()->user() and auth()->user()->hasRole($role);
+        });
+
+        Blade::if('anyrole', function(...$roles) {
+            return auth()->user() and auth()->user()->hasAnyRole(...$roles);
+        });
+
+        Blade::if('allroles', function(...$roles) {
+            return auth()->user() and auth()->user()->hasAllRoles(...$roles);
         });
     }
 

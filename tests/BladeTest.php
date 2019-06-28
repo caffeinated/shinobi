@@ -127,4 +127,128 @@ class BladeTest extends TestCase
 
         $this->assertEquals($result, 'does not have admin or moderator roles');
     }
+
+    /** @test */
+    public function the_anyrole_directive_evaluates_true_when_at_least_one_role_is_found()
+    {
+        $admin = factory(Role::class)->create([
+            'name' => 'Admin',
+            'slug' => 'admin',
+        ]);
+        
+        $user = factory(User::class)->create();
+
+        $user->assignRoles($admin);
+
+        $this->actingAs($user);
+
+        $result = $this->renderView('anyrole_directive');
+
+        $this->assertEquals($result, 'has either moderator or admin role');
+    }
+
+    /** @test */
+    public function the_anyrole_directive_evaluates_true_when_at_least_one_role_is_found_when_using_else()
+    {
+        $editor = factory(Role::class)->create([
+            'name' => 'Editor',
+            'slug' => 'editor',
+        ]);
+        
+        $user = factory(User::class)->create();
+        
+        $user->assignRoles($editor);
+        
+        $this->actingAs($user);
+
+        $result = $this->renderView('anyrole_directive');
+
+        $this->assertEquals($result, 'has either editor or contributor role');
+    }
+
+    /** @test */
+    public function the_anyrole_directive_evaluates_false_when_no_matching_role_is_found()
+    {
+        $vip = factory(Role::class)->create([
+            'name' => 'VIP',
+            'slug' => 'vip',
+        ]);
+        
+        $user = factory(User::class)->create();
+        
+        $user->assignRoles($vip);
+        
+        $this->actingAs($user);
+
+        $result = $this->renderView('anyrole_directive');
+
+        $this->assertEquals($result, 'does not have any of the defined roles');
+    }
+
+    /** @test */
+    public function the_allrole_directive_evaluates_true_when_all_roles_are_found()
+    {
+        $moderator = factory(Role::class)->create([
+            'name' => 'Moderator',
+            'slug' => 'moderator',
+        ]);
+
+        $editor = factory(Role::class)->create([
+            'name' => 'Editor',
+            'slug' => 'editor',
+        ]);
+        
+        $user = factory(User::class)->create();
+
+        $user->assignRoles($moderator, $editor);
+
+        $this->actingAs($user);
+
+        $result = $this->renderView('allroles_directive');
+
+        $this->assertEquals($result, 'has both moderator and editor roles');
+    }
+
+    /** @test */
+    public function the_allrole_directive_evaluates_true_when_all_roles_are_found_when_using_else()
+    {
+        $vip = factory(Role::class)->create([
+            'name' => 'VIP',
+            'slug' => 'vip',
+        ]);
+
+        $premium = factory(Role::class)->create([
+            'name' => 'Premium',
+            'slug' => 'premium',
+        ]);
+        
+        $user = factory(User::class)->create();
+        
+        $user->assignRoles($vip, $premium);
+        
+        $this->actingAs($user);
+
+        $result = $this->renderView('allroles_directive');
+
+        $this->assertEquals($result, 'has both VIP and premium roles');
+    }
+
+    /** @test */
+    public function the_allroles_directive_evaluates_false_when_all_defined_roles_are_not_met()
+    {
+        $vip = factory(Role::class)->create([
+            'name' => 'VIP',
+            'slug' => 'vip',
+        ]);
+        
+        $user = factory(User::class)->create();
+        
+        $user->assignRoles($vip);
+        
+        $this->actingAs($user);
+
+        $result = $this->renderView('allroles_directive');
+
+        $this->assertEquals($result, 'does not have any of the defined roles');
+    }
 }
