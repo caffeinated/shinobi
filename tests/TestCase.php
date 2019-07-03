@@ -2,6 +2,8 @@
 
 namespace Caffeinated\Shinobi\Tests;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
 use Caffeinated\Shinobi\Facades\Shinobi;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -77,5 +79,19 @@ abstract class TestCase extends Orchestra
         $html = view($path)->render();
 
         return trim($html);
+    }
+
+    /**
+     * Perform a middleware check against a mocked response.
+     * 
+     * @param  string  $middleware
+     * @param  array|string  $parameter
+     * @return int
+     */
+    protected function middleware($middleware, $parameter)
+    {
+        return (app()->make($middleware))->handle(new Request(), function() {
+            return (new Response())->setContent('<html></html>');
+        }, $parameter)->status();
     }
 }

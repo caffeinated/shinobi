@@ -5,7 +5,7 @@ namespace Caffeinated\Shinobi\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class UserHasRole
+class UserHasAnyRole
 {
     /**
      * @var Illuminate\Contracts\Auth\Guard
@@ -31,9 +31,12 @@ class UserHasRole
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, ...$roles)
     {
-        if (! $this->auth->user()->hasRole($role)) {
+        $roles      = call_user_func_array('array_merge', $roles);
+        $authorized = call_user_func_array([$this->auth->user(), 'hasAnyRole'], $roles);
+
+        if (! $authorized) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             }
