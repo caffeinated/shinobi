@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.2.0] - 2019-08-06
+### Added
+- Laravel 6.x support
+
 ## [4.1.0] - 2019-07-03
 ### Added
 - New blade directives; `@anyrole`, `@elseanyrole`, `@endanyrole`, `@allroles`, `@elseallroles`, and `@endallroles`
