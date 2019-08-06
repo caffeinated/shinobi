@@ -5,6 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/caffeinated/shinobi.svg?style=flat-square)](https://packagist.org/packages/caffeinated/shinobi)
 [![Travis (.org)](https://img.shields.io/travis/caffeinated/shinobi.svg?style=flat-square)](https://travis-ci.org/caffeinated/shinobi)
 
+
 A simple and light-weight role-based permissions system for Laravel's Authorization Gate system.
 
 - Every user can have zero or more permissions.
