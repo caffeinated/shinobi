@@ -5,6 +5,7 @@ namespace Caffeinated\Shinobi\Concerns;
 use Caffeinated\Shinobi\Facades\Shinobi;
 use Caffeinated\Shinobi\Contracts\Permission;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Caffeinated\Shinobi\Exceptions\PermissionNotFoundException;
 
 trait HasPermissions
 {
@@ -39,16 +40,10 @@ trait HasPermissions
         
         // Fetch permission if we pass through a string
         if (is_string($permission)) {
-            try {
-                $model = $this->getPermissionModel();
+            $permission = $this->getPermissionModel()->where('slug', $permission)->first();
 
-                if(method_exists($model, 'firstOrFail'))
-                    $permission = $model->where('slug', $permission)->firstOrFail();
-                else //If its cached
-                    $permission = $model->where('slug', $permission)->first();
-                
-            } catch (\Exception $e) {
-
+            if (! $permission) {
+                throw new PermissionNotFoundException;
             }
         }
         
@@ -56,7 +51,6 @@ trait HasPermissions
         if (method_exists($this, 'hasPermissionThroughRole') and $this->hasPermissionThroughRole($permission)) {
             return true;
         }
-
         
         // Check user permission
         if ($this->hasPermission($permission)) {
