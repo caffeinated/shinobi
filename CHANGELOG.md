@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [4.3.0] - 2019-08-30
+### Added
+- `PermissionNotFoundException` will now be thrown if a permission is not found during check. You may catch and report against this from within your application :v:
+
+### Fixed
+- No longer using the `firstOrFail` method when checking for permissions, which means no more discrepancies when caching is enabled
+- `hasPermissionThroughRole` now checks the role directly for permissions
+
 ## [4.2.0] - 2019-08-06
 ### Added
 - Laravel 6.x support
