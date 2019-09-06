@@ -2,6 +2,8 @@
 
 namespace Caffeinated\Shinobi\Tactics;
 
+use Illuminate\Support\Arr;
+
 class AssignRoleTo
 {
     /**
@@ -16,7 +18,7 @@ class AssignRoleTo
      */
     public function __construct(...$roles)
     {
-        $this->roles = array_flatten($roles);
+        $this->roles = Arr::flatten($roles);
     }
 
     public function to($user)

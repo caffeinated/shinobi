@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Shinobi\Tactics;
 
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Caffeinated\Shinobi\Facades\Shinobi;
 
@@ -19,7 +20,7 @@ class RevokePermissionsFrom
      */
     public function __construct(...$permissions)
     {
-        $this->permissions = array_flatten($permissions);
+        $this->permissions = Arr::flatten($permissions);
     }
 
     public function to($roleOrUser)

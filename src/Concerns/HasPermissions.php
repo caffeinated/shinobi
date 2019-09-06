@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Shinobi\Concerns;
 
+use Illuminate\Support\Arr;
 use Caffeinated\Shinobi\Facades\Shinobi;
 use Caffeinated\Shinobi\Contracts\Permission;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -68,7 +69,7 @@ trait HasPermissions
      */
     public function givePermissionTo(...$permissions): self
     {        
-        $permissions = array_flatten($permissions);
+        $permissions = Arr::flatten($permissions);
         $permissions = $this->getPermissions($permissions);
 
         if (! $permissions) {
@@ -88,7 +89,7 @@ trait HasPermissions
      */
     public function revokePermissionTo(...$permissions): self
     {
-        $permissions = array_flatten($permissions);
+        $permissions = Arr::flatten($permissions);
         $permissions = $this->getPermissions($permissions);
 
         $this->permissions()->detach($permissions);
@@ -104,7 +105,7 @@ trait HasPermissions
      */
     public function syncPermissions(...$permissions): self
     {
-        $permissions = array_flatten($permissions);
+        $permissions = Arr::flatten($permissions);
         $permissions = $this->getPermissions($permissions);
 
         $this->permissions()->sync($permissions);

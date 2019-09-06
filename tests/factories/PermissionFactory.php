@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use Caffeinated\Shinobi\Models\Permission;
 
 $factory->define(Permission::class, function(Faker\Generator $faker) {
@@ -7,7 +8,7 @@ $factory->define(Permission::class, function(Faker\Generator $faker) {
 
     return [
         'name'        => $name,
-        'slug'        => str_slug($name, '.'),
+        'slug'        => Str::slug($name, '.'),
         'description' => $faker->sentence,
     ];
 });
