@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.0.0] - 2019-09-05
+### Removed
+- References to deprecated Laravel helper methods
+- Laravel 5 support
+
+### Changed
+- PHP 7.2 is now the minimum supported version
+
 ## [4.3.0] - 2019-08-30
 ### Added
 - `PermissionNotFoundException` will now be thrown if a permission is not found during check. You may catch and report against this from within your application :v:
