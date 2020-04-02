@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Caffeinated\Shinobi\Facades\Shinobi;
 
-class RevokePermissionsFrom
+class RevokePermissionFrom
 {
     /**
      * @var array
@@ -15,7 +15,7 @@ class RevokePermissionsFrom
 
     /**
      * Create a new GivePermissionTo instance.
-     * 
+     *
      * @param  array  $permissions
      */
     public function __construct(...$permissions)

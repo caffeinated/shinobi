@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [5.1.0] - 2020-04-02
+### Added
+- Laravel 7 support
+
 ## [5.0.0] - 2019-09-05
 ### Removed
 - References to deprecated Laravel helper methods
