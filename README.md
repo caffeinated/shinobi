@@ -1,3 +1,16 @@
+# This package has been abandoned and is no longer maintained.
+
+I am unfortunately making the hard decision to archive this package. It's served many of us well over the years, but more and more I've been finding my time stretched thin. As such, I am not able to put in as much focus here in development, documentation, and everything else that goes along with maintaining an open-source package.
+
+As an alternative, I do highly recommend Spatie's [laravel-permission](https://github.com/spatie/laravel-permission) package as a replacement. It's nearly a drop-in replacement as both Shinobi and laravel-permission hook in to Laravel's core policies system. The Spatie package is well maintained, has great documentation, and a plethora of configuration options.
+
+If for any reason you'd like to continue or pick up where Shinobi has left off, please feel free to fork and do your thing :v: that's one of the beauty's of open-source.
+
+Thank you for understanding,
+Kai
+
+---
+
 # Caffeinated Shinobi
 [![Source](https://img.shields.io/badge/source-caffeinated/shinobi-blue.svg?style=flat-square)](https://github.com/caffeinated/shinobi)
 [![Latest Stable Version](https://poser.pugx.org/caffeinated/shinobi/v/stable?format=flat-square)](https://packagist.org/packages/caffeinated/shinobi)
