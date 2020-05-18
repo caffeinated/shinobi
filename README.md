@@ -1,8 +1,8 @@
 # This package has been abandoned and is no longer maintained.
 
-I am unfortunately making the hard decision to archive this package. It's served many of us well over the years, but more and more I've been finding my time stretched thin. As such, I am not able to put in as much focus here in development, documentation, and everything else that goes along with maintaining an open-source package.
+I am unfortunately making the hard decision to archive this package. It's served many of us well over the years, but more and more I've been finding my time stretched thin. As such, I am not able to put in as much focus here in development, documentation, and everything else that goes along with maintaining an open-source package. I can't in good consience leave this as is when so many of you are still using and maybe running in to some issues with things.
 
-As an alternative, I do highly recommend Spatie's [laravel-permission](https://github.com/spatie/laravel-permission) package as a replacement. It's nearly a drop-in replacement as both Shinobi and laravel-permission hook in to Laravel's core policies system. The Spatie package is well maintained, has great documentation, and a plethora of configuration options.
+As an alternative, I highly recommend Spatie's [laravel-permission](https://github.com/spatie/laravel-permission) package as a replacement. It's nearly a drop-in replacement as both Shinobi and laravel-permission hook in to Laravel's core policies system. The Spatie package is well maintained, has great documentation, and a plethora of configuration options.
 
 If for any reason you'd like to continue or pick up where Shinobi has left off, please feel free to fork and do your thing :v: that's one of the beauty's of open-source.
 
